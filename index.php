@@ -5,9 +5,10 @@
 
     $controllers = [
         "access",
+        "groups"
     ];
 
-    $controller = "access";
+    $controller = "groups";
 
     if( !empty($url_parts[1]) ) {
 
