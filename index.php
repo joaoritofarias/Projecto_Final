@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    define("BASE_PATH", "/" );
+
     $url_parts = explode("/", $_SERVER["REQUEST_URI"]);
 
     $controllers = [
