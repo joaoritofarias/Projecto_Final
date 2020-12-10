@@ -14,7 +14,7 @@
     foreach($groups as $group) {
         echo '
         <li>
-            <a href="groups/' .$group["group_id"]. '">' .$group["group_name"]. '</a>
+            <a href="' .BASE_PATH. 'groups/' .$group["group_id"]. '">' .$group["group_name"]. '</a>
             <p>' .$group["game_name"]. '</p>
             <p>' .$group["created_at"]. '</p>
             <p>' .$group["creator_name"]. '</p>

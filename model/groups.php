@@ -8,7 +8,7 @@
             $query = $this->db->prepare("
                 SELECT g.group_id, g.group_name, g.game_name, g.created_at, u.name AS creator_name
                 FROM groups g
-                INNER JOIN users u ON(g.user_id = u.user_id)
+                INNER JOIN users u USING(user_id)
             ");
 
             $query->execute();
@@ -33,15 +33,14 @@
                     s.name AS store_name,
                     s.store_id
                 FROM groups g
-                INNER JOIN users u ON(g.user_id = u.user_id)
-                INNER JOIN stores s ON(g.store_id = s.store_id)
-                WHERE group_id = ?
+                INNER JOIN users u USING(user_id)
+                INNER JOIN stores s USING(store_id)
+                WHERE g.group_id = ?
             ");
     
             $query->execute([ $id ]);
     
             return $query->fetch( PDO::FETCH_ASSOC );
         }
-
     }
 ?>

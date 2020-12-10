@@ -3,6 +3,20 @@ require("base.php");
 
 class Users extends Base
 {
+    public function getUserAndGroups($id) {
+
+        $query = $this->db->prepare("
+            SELECT u.name, u.email, u.city, u.country, g.group_id, g.group_name, g.game_name, g.created_at
+            FROM users u
+            INNER JOIN groups g USING (user_id)
+            WHERE u.user_id = ?
+        ");
+
+        $query->execute([ $id ]);
+
+        return $query->fetchAll( PDO::FETCH_ASSOC );
+    }
+
     public function create( $user ) {
 
         $user = $this->sanitize( $user );

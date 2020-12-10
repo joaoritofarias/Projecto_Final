@@ -7,7 +7,9 @@
 
     $controllers = [
         "access",
-        "groups"
+        "groups",
+        "users",
+        "stores"
     ];
 
     $controller = "groups";
