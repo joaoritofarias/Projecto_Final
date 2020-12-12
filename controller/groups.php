@@ -5,6 +5,11 @@
 
     if( !empty($action) ) {
 
+        if( !isset($_SESSION["user_id"]) ) {
+            header("Location: " .BASE_PATH. "access/login");
+            exit;
+        }
+
         $group = $model->getGroup( $action );
     
         if( empty($group) ) {

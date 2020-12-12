@@ -7,6 +7,13 @@
     }
     
     $action = $action;
+
+    if( $action === "logout") {
+        session_destroy();
+
+        header("Location: " . BASE_PATH);
+        exit;
+    }
     
     
     require("model/users.php");
@@ -19,10 +26,22 @@
             $result = $modelUsers->create( $_POST );
     
             if($result) {
-                header("Location: access/register");
+                header("Location:" .BASE_PATH. "access/login");
             }
             else {
                 $message = "Preencha correctamente todos campos";
+            }
+        }
+        elseif($action === "login") {
+
+            $user = $modelUsers->login( $_POST );
+            
+            if( !empty($user) ) {
+                $_SESSION["user_id"] = $user["user_id"];
+                header("Location: " .BASE_PATH. "groups");
+            }
+            else {
+                $message = "Email ou password incorrectos.  Tente de novo.";
             }
         }
     }

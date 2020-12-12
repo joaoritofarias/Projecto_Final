@@ -1,14 +1,14 @@
 <?php
     require("base.php");
 
-    class Groups extends Base
-    {
+    class Groups extends Base {
+
         public function getGroups() {
 
             $query = $this->db->prepare("
                 SELECT g.group_id, g.group_name, g.game_name, g.created_at, u.name AS creator_name
                 FROM groups g
-                INNER JOIN users u USING(user_id)
+                LEFT JOIN users u USING(user_id)
             ");
 
             $query->execute();
@@ -33,8 +33,8 @@
                     s.name AS store_name,
                     s.store_id
                 FROM groups g
-                INNER JOIN users u USING(user_id)
-                INNER JOIN stores s USING(store_id)
+                LEFT JOIN users u USING(user_id)
+                LEFT JOIN stores s USING(store_id)
                 WHERE g.group_id = ?
             ");
     

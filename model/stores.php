@@ -1,8 +1,8 @@
 <?php
     require("base.php");
 
-    class Stores extends Base
-    {
+    class Stores extends Base {
+        
         public function getStoreAndGroups($id) {
 
             $query = $this->db->prepare("

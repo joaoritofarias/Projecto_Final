@@ -1,8 +1,8 @@
 <?php
     require("base.php");
 
-    class Users extends Base
-    {
+    class Users extends Base {
+
         public function getUserAndGroups($id) {
 
             $query = $this->db->prepare("
@@ -36,10 +36,12 @@
                 $user["password"] === $user["rep_password"]
             ) {
 
+                $api_key = bin2hex( random_bytes(32) );
+
                 $query = $this->db->prepare("
                     INSERT INTO users
-                    (name, email, password, city, country)
-                    VALUES(?, ?, ?, ?, ?)
+                    (name, email, password, city, country, api_key)
+                    VALUES(?, ?, ?, ?, ?, ?)
                 ");
 
                 return $query->execute([
@@ -47,10 +49,38 @@
                     $user["email"],
                     password_hash($user["password"], PASSWORD_DEFAULT),
                     $user["city"],
-                    $user["country"]
+                    $user["country"],
+                    $api_key
                 ]);
             }
 
+            return false;
+        }
+
+        public function login( $user ) {
+
+            $user = $this->sanitize($user);
+    
+            if(
+                filter_var($user["email"], FILTER_VALIDATE_EMAIL) &&
+                mb_strlen($user["password"]) >= 8 &&
+                mb_strlen($user["password"]) <= 1000
+            ) {
+                $query = $this->db->prepare("
+                    SELECT user_id, password
+                    FROM users
+                    WHERE email = ?
+                ");
+    
+                $query->execute([ $user["email"] ]);
+    
+                $existingUser = $query->fetch( PDO::FETCH_ASSOC );
+    
+                if( !empty($existingUser) && password_verify($user["password"], $existingUser["password"]) ){
+                    return $existingUser;
+                }
+            }
+    
             return false;
         }
 

@@ -9,11 +9,11 @@
 <?php
     if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
 ?>
-        <form method="post" action="/access/register">
+        <form method="post" action="<?=BASE_PATH?>access/register">
             <div>
                 <label>
                     Nome
-                    <input type="text" name="name" required minlength="2" maxlength="64">
+                    <input type="text" name="name" required minlength="2" maxlength="64"required autofocus>
                 </label>
             </div>
             <div>
@@ -25,25 +25,25 @@
             <div>
                 <label>
                     Password
-                    <input type="password" name="password" required minlength="8" maxlength="1000">
+                    <input type="password" name="password" minlength="8" maxlength="1000"required >
                 </label>
             </div>
             <div>
                 <label>
                     Repetir Password
-                    <input type="password" name="rep_password" required minlength="8" maxlength="1000">
+                    <input type="password" name="rep_password" minlength="8" maxlength="1000" required>
                 </label>
             </div>
             <div>
                 <label>
                     Cidade
-                    <input type="text" name="city" required maxlength="64">
+                    <input type="text" name="city" maxlength="64"required >
                 </label>
             </div>
             <div>
                 <label>
                     País
-                    <input type="text" name="country" required maxlength="32">
+                    <input type="text" name="country" maxlength="32" required>
                 </label>
             </div>
   
