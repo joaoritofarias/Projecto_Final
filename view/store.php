@@ -5,6 +5,9 @@
         <title><?php echo $storeGroups[0]["name"]; ?></title>
     </head>
     <body>
+<?php
+    include("menu.php");
+?>
         <h1><?php echo $storeGroups[0]["name"]; ?></h1>
         <div class="bio">
             <p><?php echo $storeGroups[0]["address"]; ?></p>

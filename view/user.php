@@ -5,11 +5,12 @@
         <title><?php echo $userGroups[0]["name"]; ?></title>
     </head>
     <body>
+<?php
+    include("menu.php");
+?>
         <h1><?php echo $userGroups[0]["name"]; ?></h1>
         <div class="bio">
             <p><?php echo $userGroups[0]["email"]; ?></p>
-            <p><?php echo $userGroups[0]["city"]; ?></p>
-            <p><?php echo $userGroups[0]["country"]; ?></p>
         </div>
         <h2>PlayGroups</h2>
         <ul>

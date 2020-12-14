@@ -9,6 +9,7 @@
                 SELECT g.group_id, g.group_name, g.game_name, g.created_at, u.name AS creator_name
                 FROM groups g
                 LEFT JOIN users u USING(user_id)
+                ORDER BY g.created_at DESC LIMIT 10;
             ");
 
             $query->execute();

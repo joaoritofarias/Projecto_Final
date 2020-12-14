@@ -15,6 +15,19 @@
         <form method="post" action="<?=BASE_PATH?>access/login">
             <div>
                 <label>
+                    Tipo de utilizador:
+                    <label>
+                        Jogador
+                        <input type="radio" id="user" name="userType" value="user">
+                    </label>
+                    <label>
+                        Loja
+                        <input type="radio" id="store" name="userType" value="store">
+                    </label>
+                </label>
+            </div>
+            <div>
+                <label>
                     Email
                     <input type="email" name="email" required autofocus>
                 </label>

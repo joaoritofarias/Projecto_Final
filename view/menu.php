@@ -1,6 +1,6 @@
 <nav>
 <?php
-    if(!isset($_SESSION["user_id"])) {
+    if(!isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
 ?>
         <a href="<?=BASE_PATH?>access/login">Login</a>
         <a href="<?=BASE_PATH?>access/register">Criar Conta</a>
