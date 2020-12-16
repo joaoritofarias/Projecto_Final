@@ -5,17 +5,19 @@
 
     if( !empty($action) ) {
 
-        if( !isset($_SESSION["user_id"]) ) {
+        if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
             header("Location: " .BASE_PATH. "access/login");
             exit;
         }
 
-        $storeGroups = $model->getStoreAndGroups( $action );
+        $store = $model->getStore( $action );
         
-        if( empty($storeGroups) ) {
+        if( empty($store) ) {
             header("HTTP/1.1 404 Not Found");
             die("Não encontrado");
         }
+
+        $storeGroups = $model->getStoreGroups( $action );
 
         require("view/store.php");
 

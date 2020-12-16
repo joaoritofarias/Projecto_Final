@@ -10,6 +10,16 @@
 ?>
         <a href="<?=BASE_PATH?>groups">Home</a>
 <?php
+        if( isset($_SESSION["store_id"]) ){
+?>
+            <a href="<?=BASE_PATH?>users/<?=$_SESSION["store_id"]?>">Profile</a>
+<?php
+        }
+        else{
+?>
+        <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Profile</a>
+<?php
     }
+}
 ?>
 </nav>

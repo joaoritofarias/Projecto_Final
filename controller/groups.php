@@ -5,7 +5,7 @@
 
     if( !empty($action) ) {
 
-        if( !isset($_SESSION["user_id"]) ) {
+        if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
             header("Location: " .BASE_PATH. "access/login");
             exit;
         }

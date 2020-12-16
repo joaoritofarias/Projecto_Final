@@ -64,16 +64,79 @@
             return false;
         }
 
-        public function getUserAndGroups($id) {
+        public function getUser($id) {
 
             $query = $this->db->prepare("
-                SELECT u.name, u.email, u.city, u.country, g.group_id, g.group_name, g.game_name, g.created_at
-                FROM users u
-                INNER JOIN groups g USING (user_id)
-                WHERE u.user_id = ?
+                SELECT user_id, name, bio, email, created_at, is_private
+                FROM users
+                WHERE user_id = ?
             ");
 
             $query->execute([ $id ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function getUserCreated($id) {
+
+            $query = $this->db->prepare("
+                SELECT 
+                    group_id, 
+                    group_name, 
+                    game_name, 
+                    created_at, 
+                    store_id, 
+                    s.name AS store_name
+                FROM groups 
+                INNER JOIN stores s USING (store_id)
+                WHERE user_id = ?
+            ");
+
+            $query->execute([ $id ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function getUserGroups($id) {
+
+            $query = $this->db->prepare("
+                SELECT 
+                    g.group_id, 
+                    g.group_name, 
+                    g.game_name, 
+                    g.created_at, 
+                    g.store_id, 
+                    j.joined_at,
+                    s.name AS store_name
+                FROM groups g
+                INNER JOIN joined_users j USING (group_id)
+                INNER JOIN stores s USING (store_id)
+                WHERE j.user_id = ?
+            ");
+
+            $query->execute([ $id ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function getUserCreatedStoreGroups($id, $store_id) {
+
+            $query = $this->db->prepare("
+                SELECT 
+                    group_id, 
+                    group_name, 
+                    game_name, 
+                    created_at, 
+                    store_id
+                FROM groups 
+                WHERE user_id = ?
+                  AND store_id = ?
+            ");
+
+            $query->execute([ 
+                    $id,
+                    $store_id 
+                ]);
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
