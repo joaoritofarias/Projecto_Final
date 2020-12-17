@@ -105,6 +105,34 @@
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
+        
+        public function getStoreCities() {
+
+            $query = $this->db->prepare("
+                SELECT city, country 
+                FROM stores
+                GROUP BY city
+                ORDER BY city DESC
+            ");
+
+            $query->execute();
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function getStoresFromCity($city) {
+
+            $query = $this->db->prepare("
+                SELECT store_id, name 
+                FROM stores
+                WHERE city LIKE CONCAT('%',?,'%')
+                ORDER BY city DESC
+            ");
+
+            $query->execute([ $city ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
 
     }
 

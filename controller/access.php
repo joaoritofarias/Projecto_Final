@@ -20,7 +20,7 @@
     
         if($action === "register") {
 
-            if( $_POST["user_type"] === "user" ) {
+            if( $_POST["user_type"] === "user" && count($_POST) === 6 ) {
 
                 require("model/users.php");
                 $modelUsers = new Users;
@@ -34,7 +34,7 @@
                     $message = "Preencha correctamente todos campos";
                 }
             }
-            elseif ( $_POST["user_type"] === "store" ) {
+            elseif ( $_POST["user_type"] === "store" && count($_POST) === 9 ) {
 
                 require("model/stores.php");
                 $modelStores = new Stores;

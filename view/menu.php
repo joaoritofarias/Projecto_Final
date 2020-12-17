@@ -9,6 +9,7 @@
     else {
 ?>
         <a href="<?=BASE_PATH?>groups">Home</a>
+        <a href="<?=BASE_PATH?>choosestore">Criar um Playgroup</a>
 <?php
         if( isset($_SESSION["store_id"]) ){
 ?>

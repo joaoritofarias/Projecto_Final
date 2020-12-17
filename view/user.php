@@ -26,7 +26,7 @@
                 <p>' .$userGroup["game_name"]. '</p>
                 <p>' .$userGroup["created_at"]. '</p>';
                 if( empty($_SESSION["store_id"]) ){
-                    echo '<a href="' .BASE_PATH. 'store/' .$userGroup["store_id"]. '">' .$userGroup["store_name"]. '</a>';
+                    echo '<a href="' .BASE_PATH. 'stores/' .$userGroup["store_id"]. '">' .$userGroup["store_name"]. '</a>';
                 }
             echo '
             </li>

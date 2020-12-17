@@ -9,7 +9,9 @@
         "access",
         "groups",
         "users",
-        "stores"
+        "stores",
+        "choosestore",
+        "groupinteract"
     ];
 
     $controller = "groups";
@@ -26,6 +28,10 @@
 
     if( isset($url_parts[2]) ) {
         $action = $url_parts[2];
+    }
+
+    if( isset($url_parts[3]) ) {
+        $secondAction = $url_parts[3];
     }
 
     require("controller/" .$controller. ".php")

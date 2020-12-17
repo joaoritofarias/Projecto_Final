@@ -17,7 +17,7 @@
             <a href="' .BASE_PATH. 'groups/' .$group["group_id"]. '">' .$group["group_name"]. '</a>
             <p>' .$group["game_name"]. '</p>
             <p>' .$group["created_at"]. '</p>
-            <p>' .$group["creator_name"]. '</p>
+            <a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">' .$group["creator_name"]. '</a>
         </li>
         ';
     }
