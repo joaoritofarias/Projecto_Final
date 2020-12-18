@@ -13,7 +13,7 @@
 <?php
         if( isset($_SESSION["store_id"]) ){
 ?>
-            <a href="<?=BASE_PATH?>users/<?=$_SESSION["store_id"]?>">Profile</a>
+            <a href="<?=BASE_PATH?>stores/<?=$_SESSION["store_id"]?>">Profile</a>
 <?php
         }
         else{

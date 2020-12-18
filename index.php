@@ -11,7 +11,8 @@
         "users",
         "stores",
         "choosestore",
-        "groupinteract"
+        "groupinteract",
+        "subscribe"
     ];
 
     $controller = "groups";

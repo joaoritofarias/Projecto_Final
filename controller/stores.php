@@ -19,6 +19,8 @@
 
         $storeGroups = $model->getStoreGroups( $action );
 
+        $storeCreatedGroups = $model->getStoreCreated( $action );
+
         require("view/store.php");
 
     }

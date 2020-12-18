@@ -38,7 +38,7 @@
     }
     if( !empty($userCreatedGroups) ){
         echo'
-        <h2>My Created PlayGroups:</h2>
+        <h2>PlayGroups Criados:</h2>
         <ul>
         ';
         foreach($userCreatedGroups as $userCreatedGroup) {
