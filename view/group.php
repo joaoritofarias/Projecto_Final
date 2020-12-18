@@ -31,20 +31,42 @@
             <div class="storeName">
                 <?php echo '<a href="' .BASE_PATH. 'stores/' .$group["store_id"]. '">' .$group["store_name"]. '</a>'; ?>
             </div>
+        </main>
+        <div class = "joinedUsersList">
+            <h2>Utilizadores neste Playgroup:</h2>
 <?php
-    if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== $group["creator_id"] ){
-        if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
-        echo'
-        <div>
-            <form method="post" action="' .BASE_PATH. 'subscribe">
-                <input type="hidden" name="group" value="' .$group["group_id"]. '">
-                <button type="submit" name="subscribe">Aderir a este Playgroup</button>
-            </form>
-        </div>
-        ';
+    if(empty($joinedUsers)) {
+        echo "<p>Ainda não existem utilizadores inscritos neste Playgroup </p>";
+    }
+    else {
+?>            
+            <ul>
+<?php
+        foreach($joinedUsers as $joinedUser) {
+            echo '
+            <li>
+                <a href="' .BASE_PATH. 'users/' .$joinedUser["user_id"]. '">' .$joinedUser["username"]. '</a>
+            </li>
+            ';
+            }
     }
 ?>
-        </main>
+            </ul>
+
+<?php
+        if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== $group["creator_id"] ){
+            if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
+            echo'
+            <div>
+                <form method="post" action="' .BASE_PATH. 'subscribe">
+                    <input type="hidden" name="group" value="' .$group["group_id"]. '">
+                    <button type="submit" name="subscribe">Aderir a este Playgroup</button>
+                </form>
+            </div>
+            ';
+        }
+?>
+        </div>
 <?php
     include("footer.php");
 ?>

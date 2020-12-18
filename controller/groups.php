@@ -1,8 +1,10 @@
 <?php
     require("model/groups.php");
+    require("model/joinedusers.php");
 
-    $model = new Groups;
-
+    $modelGroups = new Groups;
+    $modelJoinedUsers = new Joinedusers;
+ 
     if( !empty($action) ) {
 
         if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
@@ -10,12 +12,14 @@
             exit;
         }
 
-        $group = $model->getGroup( $action );
-    
+        $group = $modelGroups->getGroup( $action );        
+
         if( empty($group) ) {
             header("HTTP/1.1 404 Not Found");
             die("Não encontrado");
         }
+
+        $joinedUsers = $modelJoinedUsers->getJoinedUsers($action);
     
         require("view/group.php");
     }

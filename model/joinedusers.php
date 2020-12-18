@@ -1,5 +1,5 @@
 <?php
-    require("base.php");
+    require_once("base.php");
 
     class Joinedusers extends Base {
 
@@ -30,13 +30,19 @@
             return false;
         }
 
+        public function getJoinedUsers($id) {
 
+            $query = $this->db->prepare("
+                SELECT j.user_id, j.joined_at, u.name AS username
+                FROM joined_users j
+                INNER JOIN users u USING(user_id)
+                WHERE group_id = ?
+            ");
 
+            $query->execute([ $id ]);
 
-
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
 
     }
-
-
-
 ?>
