@@ -8,8 +8,6 @@
     
         $deletedJoinedUser = $model->deleteJoinedUser( $_SESSION["user_id"] );
 
-        unset($_SESSION["joinedUser_id"]); 
-
         header("Location: " .BASE_PATH. "groups/" .$_POST["group"]);
     
     }

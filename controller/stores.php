@@ -1,7 +1,9 @@
 <?php
     require("model/stores.php");
+    require("model/groups.php");
 
-    $model = new Stores;
+    $modelStores = new Stores;
+    $modelGroups = new Groups;
 
     if( !empty($action) ) {
 
@@ -10,16 +12,16 @@
             exit;
         }
 
-        $store = $model->getStore( $action );
+        $store = $modelStores->getStore( $action );
         
         if( empty($store) ) {
             header("HTTP/1.1 404 Not Found");
             die("Não encontrado");
         }
 
-        $storeGroups = $model->getStoreGroups( $action );
+        $storeGroups = $modelGroups->getStoreGroups( $action );
 
-        $storeCreatedGroups = $model->getStoreCreated( $action );
+        $storeCreatedGroups = $modelGroups->getStoreCreatedGroups( $action );
 
         require("view/store.php");
 

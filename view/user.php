@@ -11,6 +11,7 @@
         <h1><?php echo $user[0]["name"]; ?></h1>
         <div class="bio">
             <p><?php echo $user[0]["bio"]; ?></p>
+            <p><?php echo $user[0]["email"]; ?></p>
             <p><?php echo $user[0]["created_at"]; ?></p>
         </div>
 <?php

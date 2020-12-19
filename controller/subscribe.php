@@ -8,8 +8,6 @@
 
         $joinedUsers = $model->joinUser( $_POST, $_SESSION["user_id"] );
 
-        $_SESSION["joinedUser_id"] = $_SESSION["user_id"];               
-
         header("Location: " .BASE_PATH. "groups/" .$_POST["group"]);
 
     }

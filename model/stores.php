@@ -85,44 +85,6 @@
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
-
-        public function getStoreGroups($id) {
-
-            $query = $this->db->prepare("
-                SELECT  
-                    g.group_id, 
-                    g.group_name, 
-                    g.game_name, 
-                    g.created_at,
-                    u.user_id,
-                    u.name AS creator_name
-                FROM groups g
-                INNER JOIN users u USING (user_id)
-                WHERE store_id = ?
-            ");
-
-            $query->execute([ $id ]);
-
-            return $query->fetchAll( PDO::FETCH_ASSOC );
-        }
-
-        public function getStoreCreated($id) {
-
-            $query = $this->db->prepare("
-                SELECT 
-                    group_id, 
-                    group_name, 
-                    game_name, 
-                    created_at
-                FROM groups 
-                WHERE user_id = 0 
-                      AND store_id = ?
-            ");
-
-            $query->execute([ $id ]);
-
-            return $query->fetchAll( PDO::FETCH_ASSOC );
-        }
         
         public function getStoreCities() {
 

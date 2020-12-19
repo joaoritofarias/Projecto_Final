@@ -1,7 +1,9 @@
 <?php
     require("model/users.php");
+    require("model/groups.php");
 
-    $model = new Users;
+    $modelUsers = new Users;
+    $modelGroups = new Groups;
 
     if( !empty($action) ) {
 
@@ -10,7 +12,7 @@
             exit;
         }
 
-        $user = $model->getUser( $action );
+        $user = $modelUsers->getUser( $action );
         
         if( empty($user) ) {
             header("HTTP/1.1 404 Not Found");
@@ -19,16 +21,16 @@
 
         if( isset($_SESSION["user_id"]) ){
             if( $_SESSION["user_id"] === $action ){
-                $userGroups = $model->getUserGroups( $action );
-                $userCreatedGroups = $model->getUserCreated( $action );
+                $userGroups = $modelGroups->getUserGroups( $action );
+                $userCreatedGroups = $modelGroups->getUserCreated( $action );
             }
             else{
-                $userCreatedGroups = $model->getUserCreated( $action );
+                $userCreatedGroups = $modelGroups->getUserCreated( $action );
             }
         }
         elseif( isset($_SESSION["store_id"]) ){
-            $userGroups = $model->getUserGroups( $action );
-            $userCreatedGroups = $model->getUserCreatedStoreGroups( $action,$_SESSION["store_id"] );
+            $userGroups = $modelGroups->getUserGroups( $action );
+            $userCreatedGroups = $modelGroups->getUserCreatedStoreGroups( $action,$_SESSION["store_id"] );
 
         }
 
