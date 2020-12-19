@@ -1,19 +1,18 @@
 <?php
 
-    if( isset($_POST["subscribe"]) ) {
+    if( isset($_POST["unsubscribe"]) ) {
 
         require("model/joinedusers.php");
-
+    
         $model = new Joinedusers;
+    
+        $deletedJoinedUser = $model->deleteJoinedUser( $_SESSION["user_id"] );
 
-        $joinedUsers = $model->joinUser( $_POST, $_SESSION["user_id"] );
-
-        $_SESSION["joinedUser_id"] = $_SESSION["user_id"];               
+        unset($_SESSION["joinedUser_id"]); 
 
         header("Location: " .BASE_PATH. "groups/" .$_POST["group"]);
-
+    
     }
-
+    
     require("view/group.php");
-
 ?>

@@ -44,5 +44,16 @@
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
 
+        public function deleteJoinedUser($id) {
+
+            $query = $this->db->prepare("
+                DELETE FROM joined_users
+                WHERE user_id = ?
+            ");
+
+            return $query->execute([ $id ]);
+  
+        }
+
     }
 ?>

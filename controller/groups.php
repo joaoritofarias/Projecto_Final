@@ -22,9 +22,11 @@
         $joinedUsers = $modelJoinedUsers->getJoinedUsers($action);
     
         require("view/group.php");
+
+        $joinedUsers = array();
     }
     else {
-        $groups = $model->getGroups();
+        $groups = $modelGroups->getGroups();
 
         require("view/home.php");
     }

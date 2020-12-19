@@ -54,13 +54,28 @@
             </ul>
 
 <?php
-        if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== $group["creator_id"] ){
-            if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
+        if( isset($_SESSION["user_id"]) && 
+            $_SESSION["user_id"] !== $group["creator_id"] &&
+            ( !in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) || empty($joinedUsers) )
+        ){
             echo'
             <div>
                 <form method="post" action="' .BASE_PATH. 'subscribe">
                     <input type="hidden" name="group" value="' .$group["group_id"]. '">
                     <button type="submit" name="subscribe">Aderir a este Playgroup</button>
+                </form>
+            </div>
+            ';
+        }
+        elseif( isset($_SESSION["user_id"]) && 
+                $_SESSION["user_id"] !== $group["creator_id"] && 
+                in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) 
+            ){
+            echo'
+            <div>
+                <form method="post" action="' .BASE_PATH. 'unsubscribe">
+                    <input type="hidden" name="group" value="' .$group["group_id"]. '">
+                    <button type="submit" name="unsubscribe">Sair deste Playgroup</button>
                 </form>
             </div>
             ';

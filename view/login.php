@@ -18,7 +18,7 @@
                     Tipo de utilizador:
                     <label>
                         Jogador
-                        <input type="radio" id="user" name="userType" value="user">
+                        <input type="radio" id="user" name="userType" value="user" checked>
                     </label>
                     <label>
                         Loja
