@@ -6,7 +6,12 @@
     </head>
     <body>
 <?php
-    include("menu.php");
+    if($_SESSION["user_id"] === $user[0]["user_id"]){
+        include("profilemenu.php");
+    }
+    else{
+        include("menu.php");        
+    }
 ?>
         <h1><?php echo $user[0]["name"]; ?></h1>
         <div class="bio">
@@ -15,49 +20,51 @@
             <p><?php echo $user[0]["created_at"]; ?></p>
         </div>
 <?php
-    if( !empty($userGroups) ){
-        echo'
-        <h2>PlayGroups:</h2>
-        <ul>
-        ';
-        foreach($userGroups as $userGroup) {
-            echo '
-            <li>
-                <a href="' .BASE_PATH. 'groups/' .$userGroup["group_id"]. '">' .$userGroup["group_name"]. '</a>
-                <p>' .$userGroup["game_name"]. '</p>
-                <p>' .$userGroup["created_at"]. '</p>';
-                if( empty($_SESSION["store_id"]) ){
-                    echo '<a href="' .BASE_PATH. 'stores/' .$userGroup["store_id"]. '">' .$userGroup["store_name"]. '</a>';
-                }
-            echo '
-            </li>
+    if( !$user[0]["is_private"] || $_SESSION["user_id"] === $user[0]["user_id"] ){
+        if( !empty($userGroups) ){
+            echo'
+            <h2>PlayGroups:</h2>
+            <ul>
+            ';
+            foreach($userGroups as $userGroup) {
+                echo '
+                <li>
+                    <a href="' .BASE_PATH. 'groups/' .$userGroup["group_id"]. '">' .$userGroup["group_name"]. '</a>
+                    <p>' .$userGroup["game_name"]. '</p>
+                    <p>' .$userGroup["created_at"]. '</p>';
+                    if( empty($_SESSION["store_id"]) ){
+                        echo '<a href="' .BASE_PATH. 'stores/' .$userGroup["store_id"]. '">' .$userGroup["store_name"]. '</a>';
+                    }
+                echo '
+                </li>
+                ';
+            }
+            echo'
+            </ul>
             ';
         }
-        echo'
-        </ul>
-        ';
-    }
-    if( !empty($userCreatedGroups) ){
-        echo'
-        <h2>PlayGroups Criados:</h2>
-        <ul>
-        ';
-        foreach($userCreatedGroups as $userCreatedGroup) {
-            echo '
-            <li>
-                <a href="' .BASE_PATH. 'groups/' .$userCreatedGroup["group_id"]. '">' .$userCreatedGroup["group_name"]. '</a>
-                <p>' .$userCreatedGroup["game_name"]. '</p>
-                <p>' .$userCreatedGroup["created_at"]. '</p>';
-                if( empty($_SESSION["store_id"]) ){
-                    echo '<a href="' .BASE_PATH. 'store/' .$userCreatedGroup["store_id"]. '">' .$userCreatedGroup["store_name"]. '</a>';
-                }
-            echo '
-            </li>
+        if( !empty($userCreatedGroups) ){
+            echo'
+            <h2>PlayGroups Criados:</h2>
+            <ul>
+            ';
+            foreach($userCreatedGroups as $userCreatedGroup) {
+                echo '
+                <li>
+                    <a href="' .BASE_PATH. 'groups/' .$userCreatedGroup["group_id"]. '">' .$userCreatedGroup["group_name"]. '</a>
+                    <p>' .$userCreatedGroup["game_name"]. '</p>
+                    <p>' .$userCreatedGroup["created_at"]. '</p>';
+                    if( empty($_SESSION["store_id"]) ){
+                        echo '<a href="' .BASE_PATH. 'store/' .$userCreatedGroup["store_id"]. '">' .$userCreatedGroup["store_name"]. '</a>';
+                    }
+                echo '
+                </li>
+                ';
+            }
+            echo'
+            </ul>
             ';
         }
-        echo'
-        </ul>
-        ';
     }
     include("footer.php");
 ?>

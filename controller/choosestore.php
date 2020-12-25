@@ -1,14 +1,14 @@
 <?php
+    if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
+        header("Location: " .BASE_PATH. "access/login");
+        exit;
+    }
+
     require("model/stores.php");
 
     $model = new Stores;
 
     if( !empty($action) ) {
-
-        if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
-            header("Location: " .BASE_PATH. "access/login");
-            exit;
-        }
         
         if( isset($_SESSION["user_id"]) ){
 
@@ -35,11 +35,6 @@
         require("view/choosestore.php");
     }
     else {
-
-        if( !isset($_SESSION["user_id"]) && !isset($_SESSION["store_id"]) ) {
-            header("Location: " .BASE_PATH. "access/login");
-            exit;
-        }
 
         if( isset($_SESSION["user_id"]) ){
             $cities = $model->getStoreCities();

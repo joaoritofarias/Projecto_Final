@@ -5,10 +5,10 @@
         <title><?php echo $group["group_name"]; ?></title>
     </head>
     <body>
-        <h1><?php echo $group["group_name"]; ?></h1>
 <?php
     include("menu.php");
 ?>
+        <h1><?php echo $group["group_name"]; ?></h1>
         <main>
             <div class="gameName">
                 <?php echo $group["game_name"]; ?>
@@ -56,11 +56,11 @@
 <?php
         if( isset($_SESSION["user_id"]) && 
             $_SESSION["user_id"] !== $group["creator_id"] &&
-            ( !in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) || empty($joinedUsers) )
+            !in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) 
         ){
             echo'
             <div>
-                <form method="post" action="' .BASE_PATH. 'subscribe">
+                <form method="post" action="' .BASE_PATH. 'joinedusers/subscribe">
                     <input type="hidden" name="group" value="' .$group["group_id"]. '">
                     <button type="submit" name="subscribe">Aderir a este Playgroup</button>
                 </form>
@@ -73,7 +73,7 @@
             ){
             echo'
             <div>
-                <form method="post" action="' .BASE_PATH. 'unsubscribe">
+                <form method="post" action="' .BASE_PATH. 'joinedusers/unsubscribe">
                     <input type="hidden" name="group" value="' .$group["group_id"]. '">
                     <button type="submit" name="unsubscribe">Sair deste Playgroup</button>
                 </form>

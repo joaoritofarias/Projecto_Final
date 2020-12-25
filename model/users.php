@@ -47,7 +47,7 @@
                 mb_strlen($user["password"]) <= 1000
             ) {
                 $query = $this->db->prepare("
-                    SELECT user_id, password
+                    SELECT user_id, password, api_key
                     FROM users
                     WHERE email = ?
                 ");
@@ -75,6 +75,20 @@
             $query->execute([ $id ]);
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function updatePrivacy($privacy, $id) {
+
+            $query = $this->db->prepare("
+                UPDATE users
+                SET is_private = ? 
+                WHERE user_id = ?
+            ");
+
+            $query->execute([ 
+                $privacy,
+                $id
+            ]);
         }
 
     }

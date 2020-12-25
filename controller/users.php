@@ -20,13 +20,9 @@
         }
 
         if( isset($_SESSION["user_id"]) ){
-            if( $_SESSION["user_id"] === $action ){
-                $userGroups = $modelGroups->getUserGroups( $action );
-                $userCreatedGroups = $modelGroups->getUserCreated( $action );
-            }
-            else{
-                $userCreatedGroups = $modelGroups->getUserCreated( $action );
-            }
+            $userGroups = $modelGroups->getUserGroups( $action );
+            $userCreatedGroups = $modelGroups->getUserCreated( $action );
+            
         }
         elseif( isset($_SESSION["store_id"]) ){
             $userGroups = $modelGroups->getUserGroups( $action );

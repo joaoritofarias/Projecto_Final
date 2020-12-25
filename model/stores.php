@@ -19,7 +19,6 @@
                 mb_strlen($store["password"]) <= 1000 &&
                 mb_strlen($store["address"]) <= 255 &&
                 mb_strlen($store["city"]) <= 64 &&
-                mb_strlen($store["country"]) <= 32 &&
                 filter_var($store["email"], FILTER_VALIDATE_EMAIL) &&
                 $store["password"] === $store["rep_password"]
             ) {
@@ -28,8 +27,8 @@
 
                 $query = $this->db->prepare("
                     INSERT INTO stores
-                    (name, email, password, address, city, country, api_key)
-                    VALUES(?, ?, ?, ?, ?, ?, ?)
+                    (name, email, password, address, city, api_key)
+                    VALUES(?, ?, ?, ?, ?, ?)
                 ");
 
                 return $query->execute([
@@ -38,7 +37,6 @@
                     password_hash($store["password"], PASSWORD_DEFAULT),
                     $store["address"],
                     $store["city"],
-                    $store["country"],
                     $api_key
                 ]);
             }
@@ -56,7 +54,7 @@
                 mb_strlen($store["password"]) <= 1000
             ) {
                 $query = $this->db->prepare("
-                    SELECT store_id, password
+                    SELECT store_id, password, api_key
                     FROM stores
                     WHERE email = ?
                 ");
@@ -76,7 +74,7 @@
         public function getStore($id) {
 
             $query = $this->db->prepare("
-                SELECT name, address, city, country 
+                SELECT store_id, name, email, address, city
                 FROM stores
                 WHERE store_id = ?
             ");
@@ -89,7 +87,7 @@
         public function getStoreCities() {
 
             $query = $this->db->prepare("
-                SELECT city, country 
+                SELECT city 
                 FROM stores
                 GROUP BY city
                 ORDER BY city DESC

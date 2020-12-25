@@ -11,7 +11,7 @@
     foreach($cities as $city) {
         echo '
         <li>
-            <a href="' .BASE_PATH. 'choosestore/' .$city["city"]. '">' .$city["city"]. ',' .$city["country"]. '</a>
+            <a href="' .BASE_PATH. 'choosestore/' .$city["city"]. '">' .$city["city"]. '</a>
         </li>
         ';
     }

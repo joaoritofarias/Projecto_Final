@@ -6,17 +6,22 @@
     </head>
     <body>
 <?php
-    include("menu.php");
+    if($_SESSION["store_id"] === $store[0]["store_id"]){
+        include("profilemenu.php");
+    }
+    else{
+        include("menu.php");        
+    }
 ?>
         <h1><?php echo $store[0]["name"]; ?></h1>
         <div class="bio">
+            <p><?php echo $store[0]["email"]; ?></p>
             <p><?php echo $store[0]["address"]; ?></p>
             <p><?php echo $store[0]["city"]; ?></p>
-            <p><?php echo $store[0]["country"]; ?></p>
         </div>
 <?php
     if( !empty($storeGroups) ){
-        echo'
+        echo' 
         <h2>PlayGroups:</h2>
         <ul>
         ';

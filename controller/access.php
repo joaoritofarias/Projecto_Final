@@ -64,6 +64,7 @@
             
                 if( !empty($user) ) {
                     $_SESSION["user_id"] = $user["user_id"];
+                    $_SESSION["store_id"] = $user["store_id"];
                     header("Location: " .BASE_PATH. "groups");
                 }
                 else {
@@ -79,6 +80,7 @@
             
                 if( !empty($store) ) {
                     $_SESSION["store_id"] = $store["store_id"];
+                    $_SESSION["store_api"] = $store["api_key"];
                     header("Location: " .BASE_PATH. "groups");
                 }
                 else {

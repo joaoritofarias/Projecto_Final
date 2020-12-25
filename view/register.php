@@ -94,12 +94,6 @@
                     </label>
                 </div>
                 <div>
-                    <label>
-                        País
-                        <input type="text" name="country" maxlength="32" required>
-                    </label>
-                </div>
-                <div>
                 <input type="hidden" name="user_type" value="store">
                 <button type="submit" name="send">Registar</button>
                 </div>
