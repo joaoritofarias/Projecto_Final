@@ -1,5 +1,5 @@
 <?php
-    require("base.php");
+    require_once("base.php");
 
     class Users extends Base {
 
@@ -18,19 +18,16 @@
                 $user["password"] === $user["rep_password"]
             ) {
 
-                $api_key = bin2hex( random_bytes(32) );
-
                 $query = $this->db->prepare("
                     INSERT INTO users
-                    (name, email, password, api_key)
-                    VALUES(?, ?, ?, ?)
+                    (name, email, password)
+                    VALUES(?, ?, ?)
                 ");
 
                 return $query->execute([
                     $user["name"],
                     $user["email"],
                     password_hash($user["password"], PASSWORD_DEFAULT),
-                    $api_key
                 ]);
             }
 
@@ -47,7 +44,7 @@
                 mb_strlen($user["password"]) <= 1000
             ) {
                 $query = $this->db->prepare("
-                    SELECT user_id, password, api_key
+                    SELECT user_id, password
                     FROM users
                     WHERE email = ?
                 ");
@@ -90,6 +87,39 @@
                 $id
             ]);
         }
+
+        public function updateProfile($newProfile, $id) {
+
+            $newProfile = $this->sanitize( $newProfile );
+
+            if(
+                !empty($newProfile["name"]) &&
+                mb_strlen($newProfile["name"]) > 2 &&
+                mb_strlen($newProfile["name"]) <= 64 &&
+                mb_strlen($newProfile["bio"]) <= 65535 &&
+                filter_var($newProfile["email"], FILTER_VALIDATE_EMAIL)
+            ) {
+
+                $query = $this->db->prepare("
+                    UPDATE users
+                    SET name = ?,
+                        email = ?,
+                        bio = ?
+                    WHERE user_id = ?
+                ");
+
+                return $query->execute([ 
+                    $newProfile["name"],
+                    $newProfile["email"],
+                    $newProfile["bio"],
+                    $id
+                ]);
+            }
+
+
+        }
+
+        
 
     }
 ?>

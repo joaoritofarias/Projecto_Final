@@ -49,10 +49,6 @@
                     $message = "Preencha correctamente todos campos";
                 }
             }
-            else {
-                header("HTTP/1.1 400 Bad Request");
-                die("Bad Request");
-            }
         }
     }
     

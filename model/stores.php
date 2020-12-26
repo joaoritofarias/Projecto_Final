@@ -1,5 +1,5 @@
 <?php
-    require("base.php");
+    require_once("base.php");
 
     class Stores extends Base {
 
@@ -12,7 +12,6 @@
                 !empty($store["password"]) &&
                 !empty($store["address"]) &&
                 !empty($store["city"]) &&
-                !empty($store["country"]) &&
                 mb_strlen($store["name"]) > 2 &&
                 mb_strlen($store["name"]) <= 64 &&
                 mb_strlen($store["password"]) >= 8 &&
@@ -23,12 +22,11 @@
                 $store["password"] === $store["rep_password"]
             ) {
 
-                $api_key = bin2hex( random_bytes(32) );
 
                 $query = $this->db->prepare("
                     INSERT INTO stores
-                    (name, email, password, address, city, api_key)
-                    VALUES(?, ?, ?, ?, ?, ?)
+                    (name, email, password, address, city)
+                    VALUES(?, ?, ?, ?, ?)
                 ");
 
                 return $query->execute([
@@ -37,7 +35,6 @@
                     password_hash($store["password"], PASSWORD_DEFAULT),
                     $store["address"],
                     $store["city"],
-                    $api_key
                 ]);
             }
 
@@ -54,7 +51,7 @@
                 mb_strlen($store["password"]) <= 1000
             ) {
                 $query = $this->db->prepare("
-                    SELECT store_id, password, api_key
+                    SELECT store_id, password
                     FROM stores
                     WHERE email = ?
                 ");
@@ -110,6 +107,42 @@
             $query->execute([ $city ]);
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function updateProfile($newProfile, $id) {
+
+            $newProfile = $this->sanitize( $newProfile );
+
+            if(
+                !empty($newProfile["name"]) &&
+                !empty($newProfile["address"]) &&
+                !empty($newProfile["city"]) &&
+                mb_strlen($newProfile["name"]) > 2 &&
+                mb_strlen($newProfile["name"]) <= 64 &&
+                mb_strlen($newProfile["address"]) <= 255 &&
+                mb_strlen($newProfile["city"]) <= 64 &&
+                filter_var($newProfile["email"], FILTER_VALIDATE_EMAIL)
+            ) {
+
+                $query = $this->db->prepare("
+                    UPDATE stores
+                    SET name = ?,
+                        email = ?,
+                        address = ?,
+                        city = ?
+                    WHERE store_id = ?
+                ");
+
+                return $query->execute([ 
+                    $newProfile["name"],
+                    $newProfile["email"],
+                    $newProfile["address"],
+                    $newProfile["city"],
+                    $id
+                ]);
+            }
+
+
         }
 
     }
