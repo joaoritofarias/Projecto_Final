@@ -36,9 +36,12 @@
             <h2>Utilizadores neste Playgroup:</h2>
 <?php
     if(empty($joinedUsers)) {
-        echo "<p>Ainda não existem utilizadores inscritos neste Playgroup </p>";
+        echo "<p>Ainda não existem utilizadores inscritos neste Playgroup</p>";
     }
     else {
+        if( count($joinedUsers) === (int)$group["total_players"] ){
+            echo "<p>!!!Playgroup Cheio!!!</p>";
+        }
 ?>            
             <ul>
 <?php
@@ -56,7 +59,8 @@
 <?php
         if( isset($_SESSION["user_id"]) && 
             $_SESSION["user_id"] !== $group["creator_id"] &&
-            !in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) 
+            !in_array( $_SESSION["user_id"], array_column($joinedUsers, "user_id") ) &&
+            count($joinedUsers) !== (int)$group["total_players"] 
         ){
             echo'
             <div>

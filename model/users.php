@@ -74,6 +74,22 @@
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
 
+        public function checkUserExists ($name,$email) {
+
+            $query = $this->db->prepare("
+                SELECT user_id
+                FROM users
+                WHERE name = ? OR email = ?
+            ");
+
+            $query->execute([ 
+                $name,
+                $email 
+            ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
         public function updatePrivacy($privacy, $id) {
 
             $query = $this->db->prepare("

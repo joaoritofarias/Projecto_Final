@@ -14,6 +14,12 @@
         header("Location: " . BASE_PATH);
         exit;
     }
+
+    require("model/users.php");
+    require("model/stores.php");
+
+    $modelUsers = new Users;
+    $modelStores = new Stores;
     
     
     if( isset($_POST["send"]) ) {
@@ -22,31 +28,41 @@
 
             if( $_POST["user_type"] === "user" && count($_POST) === 6 ) {
 
-                require("model/users.php");
-                $modelUsers = new Users;
+                $userExists = $modelUsers->checkUserExists( $_POST["name"], $_POST["email"] );
 
-                $result = $modelUsers->create( $_POST );
-    
-                if($result) {
-                    header("Location:" .BASE_PATH. "access/login");
+                if( $userExists ) {
+                    $message = "Os campos de email e/ou nome já se encontram em uso, por favor selecione outro(s)";
                 }
                 else {
-                    $message = "Preencha correctamente todos campos";
+                    $result = $modelUsers->create( $_POST );
+    
+                    if($result) {
+                        header("Location:" .BASE_PATH. "access/login");
+                    }
+                    else {
+                        $message = "Preencha correctamente todos campos";
+                    }
                 }
+
             }
-            elseif ( $_POST["user_type"] === "store" && count($_POST) === 9 ) {
+            elseif ( $_POST["user_type"] === "store" && count($_POST) === 8 ) {
 
-                require("model/stores.php");
-                $modelStores = new Stores;
+                $storeExists = $modelStores->checkStoreExists( $_POST["name"], $_POST["email"], $_POST["address"] );
 
-                $result = $modelStores->create( $_POST );
-    
-                if($result) {
-                    header("Location:" .BASE_PATH. "access/login");
+                if( $storeExists ) {
+                    $message = "Os campos de email, morada e/ou nome já se encontram em uso, por favor selecione outro(s)";
                 }
                 else {
-                    $message = "Preencha correctamente todos campos";
+                    $result = $modelStores->create( $_POST );
+    
+                    if($result) {
+                        header("Location:" .BASE_PATH. "access/login");
+                    }
+                    else {
+                        $message = "Preencha correctamente todos campos";
+                    }
                 }
+    
             }
             else {
                 header("HTTP/1.1 400 Bad Request");
@@ -56,9 +72,6 @@
         elseif($action === "login") {
 
             if( $_POST["userType"] === "user" ) {
-
-                require("model/users.php");
-                $modelUsers = new Users;
 
                 $user = $modelUsers->login( $_POST );
             
@@ -71,9 +84,6 @@
                 }
             }
             elseif ( $_POST["userType"] === "store" ) {
-
-                require("model/stores.php");
-                $modelStores = new Stores;
 
                 $store = $modelStores->login( $_POST );
             

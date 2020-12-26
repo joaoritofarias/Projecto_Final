@@ -80,6 +80,23 @@
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
         }
+
+        public function checkStoreExists ($name, $email, $address) {
+
+            $query = $this->db->prepare("
+                SELECT store_id
+                FROM stores
+                WHERE name = ? OR email = ? OR address = ?
+            ");
+
+            $query->execute([ 
+                $name,
+                $email, 
+                $address 
+            ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
         
         public function getStoreCities() {
 
