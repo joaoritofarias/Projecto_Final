@@ -110,6 +110,8 @@
 
             if(
                 !empty($newProfile["name"]) &&
+                !empty($newProfile["bio"]) &&
+                !empty($newProfile["email"]) &&
                 mb_strlen($newProfile["name"]) > 2 &&
                 mb_strlen($newProfile["name"]) <= 64 &&
                 mb_strlen($newProfile["bio"]) <= 65535 &&

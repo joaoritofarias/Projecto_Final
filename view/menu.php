@@ -14,12 +14,12 @@
 <?php
         if( isset($_SESSION["store_id"]) ){
 ?>
-            <a href="<?=BASE_PATH?>stores/<?=$_SESSION["store_id"]?>">Profile</a>
+            <a href="<?=BASE_PATH?>stores/<?=$_SESSION["store_id"]?>">Perfil</a>
 <?php
         }
         else{
 ?>
-        <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Profile</a>
+        <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Perfil</a>
 <?php
     }
 }

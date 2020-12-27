@@ -32,6 +32,7 @@
                         <textarea name="bio"></textarea>
                     </label>
                 </div>
+                <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Cancelar</a>
 <?php
     }
     elseif( isset($_SESSION["store_id"]) ){
@@ -48,6 +49,7 @@
                         <input type="text" name="city" maxlength="64">
                     </label>
                 </div>
+                <a href="<?=BASE_PATH?>stores/<?=$_SESSION["store_id"]?>">Cancelar</a>
 <?php
     }
 ?>
@@ -55,7 +57,6 @@
                 <button type="submit" name="send">Actualizar</button>
                 </div>
             </form>
-            <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Cancelar</a>
         </div>
     </body>
 </html>

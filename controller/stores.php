@@ -23,6 +23,12 @@
 
         $storeCreatedGroups = $modelGroups->getStoreCreatedGroups( $action );
 
+        $_SESSION["group_id"] = array();
+
+        foreach($storeCreatedGroups as $storeCreatedGroup){
+            array_push($_SESSION["group_id"], $storeCreatedGroup["group_id"]);                
+        }
+
         require("view/store.php");
 
     }

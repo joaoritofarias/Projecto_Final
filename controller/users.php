@@ -22,6 +22,12 @@
         if( isset($_SESSION["user_id"]) ){
             $userGroups = $modelGroups->getUserGroups( $action );
             $userCreatedGroups = $modelGroups->getUserCreated( $action );
+
+            $_SESSION["group_id"] = array();
+
+            foreach($userCreatedGroups as $userCreatedGroup){
+                array_push($_SESSION["group_id"], $userCreatedGroup["group_id"]);                
+            }
             
         }
         elseif( isset($_SESSION["store_id"]) ){

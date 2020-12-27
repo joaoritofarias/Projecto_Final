@@ -14,7 +14,8 @@
         "groupinteract",
         "joinedusers",
         "profileinteract",
-        "searchgroups"
+        "searchgroups",
+        "editgroup"
     ];
 
     $controller = "groups";

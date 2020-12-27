@@ -28,7 +28,7 @@
                 <div>
                     <label>
                         Nome
-                        <input type="text" name="name" required minlength="2" maxlength="64"required autofocus>
+                        <input type="text" name="name" minlength="2" maxlength="64"required autofocus>
                     </label>
                 </div>
                 <div>

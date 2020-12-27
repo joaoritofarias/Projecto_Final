@@ -49,7 +49,17 @@
             <li>
                 <a href="' .BASE_PATH. 'groups/' .$storeCreatedGroup["group_id"]. '">' .$storeCreatedGroup["group_name"]. '</a>
                 <p>' .$storeCreatedGroup["game_name"]. '</p>
-                <p>' .$storeCreatedGroup["created_at"]. '</p>
+                <p>' .$storeCreatedGroup["created_at"]. '</p>';
+                if( $_SESSION["store_id"] === $store[0]["store_id"] ){
+                    echo '
+                    <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$storeCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
+                    <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
+                        <input type="hidden" name="group" value="' .$storeCreatedGroup["group_id"]. '">
+                        <button type="submit" name="send"> [Apagar Playgroup] </button>
+                    </form>
+                    ';
+                }
+            echo'
             </li>
             ';
         }

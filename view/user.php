@@ -57,6 +57,15 @@
                     if( empty($_SESSION["store_id"]) ){
                         echo '<a href="' .BASE_PATH. 'store/' .$userCreatedGroup["store_id"]. '">' .$userCreatedGroup["store_name"]. '</a>';
                     }
+                    if( $_SESSION["user_id"] === $user[0]["user_id"] ){
+                        echo '
+                        <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$userCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
+                        <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
+                            <input type="hidden" name="group" value="' .$userCreatedGroup["group_id"]. '">
+                            <button type="submit" name="send"> [Apagar Playgroup] </button>
+                        </form>
+                        ';
+                    }
                 echo '
                 </li>
                 ';

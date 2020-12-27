@@ -13,7 +13,7 @@
                 !empty($group["group_name"]) &&
                 !empty($group["description"]) &&
                 !empty($group["game_name"]) &&
-                !empty($group["group_date"]) &&
+                !empty($date) &&
                 !empty($group["total_players"]) &&
                 !empty($group["group_duration"]) &&
                 mb_strlen($group["group_name"]) > 2 &&
@@ -23,7 +23,7 @@
                 mb_strlen($group["game_name"]) <= 64 &&
                 mb_strlen($group["total_players"]) <= 2 &&
                 mb_strlen($group["group_duration"]) <= 3 &&
-                $group["group_date"] >= date("Y-m-d hh:mm:ss") &&
+                $date >= date("Y-m-d hh:mm:ss") &&
                 filter_var($group["total_players"], FILTER_VALIDATE_INT) &&
                 filter_var($group["group_duration"], FILTER_VALIDATE_INT)
             ) {
@@ -38,11 +38,61 @@
                     $group["group_name"],
                     $group["description"],
                     $group["game_name"],
-                    $group["group_date"],
+                    $date,
                     $group["total_players"],
                     $group["group_duration"],
                     $store,
                     $user
+                ]);
+            }
+
+            return false;
+        }
+
+        public function editGroup( $newgroup, $group ) {
+
+            $newgroup = $this->sanitize( $newgroup );
+
+            $date = $this->validateDate( $newgroup["group_date"] );
+
+            if(
+                !empty($newgroup["group_name"]) &&
+                !empty($newgroup["description"]) &&
+                !empty($newgroup["game_name"]) &&
+                !empty($date) &&
+                !empty($newgroup["total_players"]) &&
+                !empty($newgroup["group_duration"]) &&
+                mb_strlen($newgroup["group_name"]) > 2 &&
+                mb_strlen($newgroup["group_name"]) <= 64 &&
+                mb_strlen($newgroup["description"]) >= 10 &&
+                mb_strlen($newgroup["game_name"]) > 2 &&
+                mb_strlen($newgroup["game_name"]) <= 64 &&
+                mb_strlen($newgroup["total_players"]) <= 2 &&
+                mb_strlen($newgroup["group_duration"]) <= 3 &&
+                $date >= date("Y-m-d hh:mm:ss") &&
+                filter_var($newgroup["total_players"], FILTER_VALIDATE_INT) &&
+                filter_var($newgroup["group_duration"], FILTER_VALIDATE_INT)
+            ) {
+
+                $query = $this->db->prepare("
+                    UPDATE groups
+                    SET group_name = ?,
+                        description = ?,
+                        game_name = ?,
+                        group_date = ?,
+                        total_players = ?,
+                        group_duration = ?
+                    WHERE group_id = ?
+                ");
+
+                return $query->execute([
+                    $newgroup["group_name"],
+                    $newgroup["description"],
+                    $newgroup["game_name"],
+                    $date,
+                    $newgroup["total_players"],
+                    $newgroup["group_duration"],
+                    $group
                 ]);
             }
 
