@@ -135,6 +135,16 @@
 
         }
 
+        public function delete( $id ) {
+
+            $query = $this->db->prepare("
+                DELETE FROM users
+                WHERE user_id = ?
+            ");
+            
+            return $query->execute([$id]);
+        }
+
         
 
     }

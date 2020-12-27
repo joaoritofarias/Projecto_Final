@@ -19,6 +19,27 @@
     $modelUsers = new Users;
     $modelStores = new Stores;
 
+    if( $action === "delete") {
+        
+        if( isset($_SESSION["user_id"]) ) {
+            $modelUsers->delete(  $_SESSION["user_id"] );
+
+            if($modelUsers){
+                session_destroy();
+            }
+        }
+        elseif ( isset($_SESSION["store_id"])  ) {
+            $modelStores->delete(  $_SESSION["store_id"] );
+
+            if($modelStores){
+                session_destroy();
+            }
+        }
+
+        header("Location: " . BASE_PATH);
+        exit;
+    }
+
     if( isset($_POST["send"]) ) {
 
         if( $action === "updateprivacy" ) {

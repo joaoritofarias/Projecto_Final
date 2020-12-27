@@ -162,6 +162,16 @@
 
         }
 
+        public function delete( $id ) {
+
+            $query = $this->db->prepare("
+                DELETE FROM stores
+                WHERE store_id = ?
+            ");
+            
+            return $query->execute([$id]);
+        }
+
     }
 
 ?>
