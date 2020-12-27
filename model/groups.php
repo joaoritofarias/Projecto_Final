@@ -99,6 +99,16 @@
             return false;
         }
 
+        public function delete( $id ) {
+
+            $query = $this->db->prepare("
+                DELETE FROM groups
+                WHERE group_id = ?
+            ");
+            
+            return $query->execute([$id]);
+        }
+
         public function getAllGroups() {
 
             $query = $this->db->prepare("

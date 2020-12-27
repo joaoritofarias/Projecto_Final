@@ -6,7 +6,7 @@
 
     $actions = ["updateprivacy", "updateprofile", "delete"];
 
-    if( empty($action) || !in_array($action, $actions) ) {
+    if( empty($action) || !in_array($action, $actions) || ( $action === "updateprivacy" && !isset($_POST["send"]) ) ) {
         header("HTTP/1.1 400 Bad Request");
         die("Bad Request");
     }
@@ -104,8 +104,6 @@
         }
     }
     
-    if($action === "updateprofile"){
-        require("view/updateprofile.php");
-    }
+    require("view/updateprofile.php");
 
 ?>

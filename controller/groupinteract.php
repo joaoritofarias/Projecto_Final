@@ -6,7 +6,7 @@
 
     $actions = ["creategroup", "editgroup", "deletegroup"];
 
-    if( empty($action) || !in_array($action, $actions) ) {
+    if( empty($action) || !in_array($action, $actions) || ( $action === "deletegroup" && !isset($_POST["send"]) ) ) {
         header("HTTP/1.1 400 Bad Request");
         die("Bad Request");
     }
@@ -50,7 +50,7 @@
                 }
             }
         }
-        if($action === "editgroup") {
+        elseif($action === "editgroup") {
 
             if( isset($_SESSION["user_id"]) ) {
 
@@ -141,7 +141,25 @@
                 }
             }
         }
+        elseif($action === "deletegroup") {
+
+            if( empty($_POST["group"]) || !in_array($_POST["group"], $_SESSION["group_id"]) || !isset($_SESSION["group_id"]) ) {
+                header("HTTP/1.1 400 Bad Request");
+                die("Bad Request");
+            }
+
+            $deletedGroup = $modelGroups->delete( $_POST["group"] );
+
+            if( $deletedGroup && isset($_SESSION["user_id"]) ) {
+                header( "Location:" .BASE_PATH. "users/" . $_SESSION["user_id"] );
+            }
+            elseif( $deletedGroup && isset($_SESSION["store_id"]) ) {
+                header( "Location:" .BASE_PATH. "stores/". $_SESSION["store_id"] );
+            }
+        }
     }
-    
+
+
     require("view/" .$action. ".php");
+   
 ?>
