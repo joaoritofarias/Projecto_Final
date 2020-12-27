@@ -13,7 +13,8 @@
         "choosestore",
         "groupinteract",
         "joinedusers",
-        "profileinteract"
+        "profileinteract",
+        "searchgroups"
     ];
 
     $controller = "groups";

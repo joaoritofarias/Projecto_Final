@@ -1,7 +1,9 @@
 <nav>
     <a href="<?=BASE_PATH?>groups">Home</a>
     <a href="<?=BASE_PATH?>choosestore">Criar um Playgroup</a>
+    <a href="<?=BASE_PATH?>searchgroups">Procurar um Playgroup</a>
     <a href="<?=BASE_PATH?>profileinteract/updateprofile">Actualizar Perfil</a>
+    <a href="<?=BASE_PATH?>profileinteract/changepassword">Alterar a Password</a>
     <a href="<?=BASE_PATH?>myplaygroups">Os meus Playgroups</a>
 <?php
     if( isset($_SESSION["user_id"]) ) {

@@ -9,7 +9,9 @@
 <?php
     include("menu.php");
 ?>
-        <ul>
+        <div>
+            <h2>Playgroups mais recentes:</h2>
+            <ul>
 <?php
     foreach($groups as $group) {
         echo '
@@ -22,7 +24,8 @@
         ';
     }
 ?>
-        </ul>
+            </ul>
+        </div>
 <?php
     include("footer.php");
 ?>

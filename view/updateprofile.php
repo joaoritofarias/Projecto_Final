@@ -55,6 +55,7 @@
                 <button type="submit" name="send">Actualizar</button>
                 </div>
             </form>
+            <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Cancelar</a>
         </div>
     </body>
 </html>

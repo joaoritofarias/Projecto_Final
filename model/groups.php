@@ -5,6 +5,8 @@
 
         public function createGroup( $group, $store, $user ) {
 
+            $group = $this->sanitize( $group );
+
             $date = $this->validateDate( $group["group_date"] );
 
             if(
@@ -47,18 +49,52 @@
             return false;
         }
 
-        public function getGroups() {
+        public function getAllGroups() {
 
             $query = $this->db->prepare("
-                SELECT g.group_id, g.group_name, g.game_name, g.created_at, u.name AS creator_name, u.user_id AS creator_id
+                SELECT g.group_id, 
+                       g.group_name, 
+                       g.game_name, 
+                       g.created_at, 
+                       u.name AS creator_name, 
+                       u.user_id AS creator_id
                 FROM groups g
                 LEFT JOIN users u USING(user_id)
-                ORDER BY g.created_at DESC LIMIT 10;
+                ORDER BY g.created_at DESC
             ");
 
             $query->execute();
 
             return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
+        public function searchGroups($search) {
+
+            $query = $this->db->prepare("
+                SELECT g.group_id, 
+                       g.group_name, 
+                       g.game_name, 
+                       g.created_at, 
+                       u.name AS creator_name, 
+                       u.user_id AS creator_id, 
+                       s.city
+                FROM groups g
+                LEFT JOIN users u USING(user_id)
+                LEFT JOIN stores s USING(store_id)
+                WHERE g.group_name LIKE CONCAT('%',?,'%') OR 
+                      g.game_name LIKE CONCAT('%',?,'%') OR 
+                      s.city LIKE CONCAT('%',?,'%')
+                ORDER BY g.created_at DESC
+            ");
+
+            $query->execute([
+                $search,
+                $search,
+                $search
+            ]);
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+
         }
 
         public function getGroup($id) {

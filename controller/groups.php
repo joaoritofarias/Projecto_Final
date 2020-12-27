@@ -26,7 +26,9 @@
         $joinedUsers = array();
     }
     else {
-        $groups = $modelGroups->getGroups();
+        $groups = $modelGroups->getAllGroups();
+
+        $groups = array_slice($groups, 0, 5, true);
 
         require("view/home.php");
     }
