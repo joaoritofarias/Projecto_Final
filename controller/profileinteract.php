@@ -4,7 +4,7 @@
         exit;
     }  
 
-    $actions = ["updateprivacy", "updateprofile", "delete"];
+    $actions = ["updateprivacy", "updateprofile", "changepassword", "delete"];
 
     if( empty($action) || !in_array($action, $actions) || ( $action === "updateprivacy" && !isset($_POST["send"]) ) ) {
         header("HTTP/1.1 400 Bad Request");
@@ -100,10 +100,36 @@
                 else {
                     $message = "Preencha correctamente todos campos";
                 }
+            }  
+        }
+        elseif( $action === "changepassword" ) {
+
+            if( isset($_SESSION["user_id"]) ) {
+                
+                $result = $modelUsers->changePassword( $_SESSION["user_id"], $_POST );
+
+                if($result) {
+                    header( "Location:" .BASE_PATH. "users/". $_SESSION["user_id"] );
+                }
+                else {
+                    $message = "Preencha correctamente todos campos";
+                }
+        
+            }
+            elseif ( isset($_SESSION["store_id"])  ) {
+
+                $result = $modelStores->changePassword( $_SESSION["store_id"], $_POST );
+      
+                if($result) {
+                    header( "Location:" .BASE_PATH. "stores/". $_SESSION["store_id"] );
+                }
+                else {
+                    $message = "Preencha correctamente todos campos";
+                }
             }
         }
     }
     
-    require("view/updateprofile.php");
+    require("view/" .$action. ".php");
 
 ?>

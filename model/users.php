@@ -27,7 +27,7 @@
                 return $query->execute([
                     $user["name"],
                     $user["email"],
-                    password_hash($user["password"], PASSWORD_DEFAULT),
+                    password_hash($user["password"], PASSWORD_DEFAULT)
                 ]);
             }
 
@@ -71,7 +71,7 @@
 
             $query->execute([ $id ]);
 
-            return $query->fetchAll( PDO::FETCH_ASSOC );
+            return $query->fetch( PDO::FETCH_ASSOC );
         }
 
         public function checkUserExists ($name,$email) {
@@ -87,7 +87,47 @@
                 $email 
             ]);
 
-            return $query->fetchAll( PDO::FETCH_ASSOC );
+            return $query->fetch( PDO::FETCH_ASSOC );
+        }
+
+        public function changePassword($id,$data){
+
+            $data = $this->sanitize($data);
+    
+            if(
+                mb_strlen($data["oldpassword"]) >= 8 &&
+                mb_strlen($data["oldpassword"]) <= 1000 &&
+                mb_strlen($data["newpassword"]) >= 8 &&
+                mb_strlen($data["newpassword"]) <= 1000 &&
+                $data["newpassword"] === $data["rep_newpassword"] &&
+                $data["newpassword"] !== $data["oldpassword"]
+            ) {
+                $query = $this->db->prepare("
+                    SELECT password
+                    FROM users
+                    WHERE user_id = ?
+                ");
+    
+                $query->execute([ $id ]);
+    
+                $existingUser = $query->fetch( PDO::FETCH_ASSOC );
+    
+                if( !empty($existingUser) && password_verify($data["oldpassword"], $existingUser["password"]) ){
+
+                    $query = $this->db->prepare("
+                        UPDATE users
+                        SET password = ? 
+                        WHERE user_id = ?
+                    ");
+        
+                    return $query->execute([ 
+                        password_hash($data["newpassword"], PASSWORD_DEFAULT),
+                        $id
+                    ]);
+                }
+            }
+    
+            return false;
         }
 
         public function updatePrivacy($privacy, $id) {
@@ -98,7 +138,7 @@
                 WHERE user_id = ?
             ");
 
-            $query->execute([ 
+            return $query->execute([ 
                 $privacy,
                 $id
             ]);

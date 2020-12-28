@@ -10,7 +10,7 @@
 ?>
         <form method="post" action="<?=BASE_PATH?>profileinteract/updateprivacy">
 <?php
-        if($user[0]["is_private"]){
+        if($user["is_private"]){
 ?>
                 <input type="hidden" name="privacy" value="0">
                 <button type="submit" name="send">Tornar o meu perfil publico.</button>

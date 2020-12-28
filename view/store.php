@@ -2,22 +2,24 @@
 <html lang="pt">
     <head>
         <meta charset="utf-8">
-        <title><?php echo $store[0]["name"]; ?></title>
+        <title><?php echo $store["name"]; ?></title>
     </head>
     <body>
 <?php
-    if($_SESSION["store_id"] === $store[0]["store_id"]){
-        include("profilemenu.php");
+    if( isset($_SESSION["store_id"]) ) {
+        if($_SESSION["store_id"] === $store["store_id"]){
+            include("profilemenu.php");
+        }
     }
     else{
         include("menu.php");        
     }
 ?>
-        <h1><?php echo $store[0]["name"]; ?></h1>
+        <h1><?php echo $store["name"]; ?></h1>
         <div class="bio">
-            <p><?php echo $store[0]["email"]; ?></p>
-            <p><?php echo $store[0]["address"]; ?></p>
-            <p><?php echo $store[0]["city"]; ?></p>
+            <p><?php echo $store["email"]; ?></p>
+            <p><?php echo $store["address"]; ?></p>
+            <p><?php echo $store["city"]; ?></p>
         </div>
 <?php
     if( !empty($storeGroups) ){
@@ -50,7 +52,7 @@
                 <a href="' .BASE_PATH. 'groups/' .$storeCreatedGroup["group_id"]. '">' .$storeCreatedGroup["group_name"]. '</a>
                 <p>' .$storeCreatedGroup["game_name"]. '</p>
                 <p>' .$storeCreatedGroup["created_at"]. '</p>';
-                if( $_SESSION["store_id"] === $store[0]["store_id"] ){
+                if( $_SESSION["store_id"] === $store["store_id"] ){
                     echo '
                     <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$storeCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
                     <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">

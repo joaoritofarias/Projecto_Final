@@ -2,25 +2,27 @@
 <html lang="pt">
     <head>
         <meta charset="utf-8">
-        <title><?php echo $user[0]["name"]; ?></title>
+        <title><?php echo $user["name"]; ?></title>
     </head>
     <body>
 <?php
-    if($_SESSION["user_id"] === $user[0]["user_id"]){
-        include("profilemenu.php");
+    if( isset($_SESSION["user_id"]) ) {
+        if($_SESSION["user_id"] === $user["user_id"]){
+            include("profilemenu.php");
+        }
     }
     else{
         include("menu.php");        
     }
 ?>
-        <h1><?php echo $user[0]["name"]; ?></h1>
+        <h1><?php echo $user["name"]; ?></h1>
         <div class="bio">
-            <p><?php echo $user[0]["bio"]; ?></p>
-            <p><?php echo $user[0]["email"]; ?></p>
-            <p><?php echo $user[0]["created_at"]; ?></p>
+            <p><?php echo $user["bio"]; ?></p>
+            <p><?php echo $user["email"]; ?></p>
+            <p><?php echo $user["created_at"]; ?></p>
         </div>
 <?php
-    if( !$user[0]["is_private"] || $_SESSION["user_id"] === $user[0]["user_id"] ){
+    if( !$user["is_private"] || $_SESSION["user_id"] === $user["user_id"] ){
         if( !empty($userGroups) ){
             echo'
             <h2>PlayGroups:</h2>
@@ -57,14 +59,16 @@
                     if( empty($_SESSION["store_id"]) ){
                         echo '<a href="' .BASE_PATH. 'store/' .$userCreatedGroup["store_id"]. '">' .$userCreatedGroup["store_name"]. '</a>';
                     }
-                    if( $_SESSION["user_id"] === $user[0]["user_id"] ){
-                        echo '
-                        <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$userCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
-                        <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
-                            <input type="hidden" name="group" value="' .$userCreatedGroup["group_id"]. '">
-                            <button type="submit" name="send"> [Apagar Playgroup] </button>
-                        </form>
-                        ';
+                    if( isset($_SESSION["user_id"]) ) {
+                        if( $_SESSION["user_id"] === $user["user_id"] && $_SESSION["user_id"] ){
+                            echo '
+                            <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$userCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
+                            <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
+                                <input type="hidden" name="group" value="' .$userCreatedGroup["group_id"]. '">
+                                <button type="submit" name="send"> [Apagar Playgroup] </button>
+                            </form>
+                            ';
+                        }
                     }
                 echo '
                 </li>

@@ -3,9 +3,9 @@
 
     class Stores extends Base {
 
-        public function create( $store ) {
+        public function create($store) {
 
-            $store = $this->sanitize( $store );
+            $store = $this->sanitize($store);
 
             if(
                 !empty($store["name"]) &&
@@ -41,7 +41,7 @@
             return false;
         }
 
-        public function login( $store ) {
+        public function login($store) {
 
             $store = $this->sanitize($store);
     
@@ -78,7 +78,7 @@
 
             $query->execute([ $id ]);
 
-            return $query->fetchAll( PDO::FETCH_ASSOC );
+            return $query->fetch( PDO::FETCH_ASSOC );
         }
 
         public function checkStoreExists ($name, $email, $address) {
@@ -162,7 +162,46 @@
 
         }
 
-        public function delete( $id ) {
+        public function changePassword($id,$data){
+
+            $data = $this->sanitize($data);
+    
+            if(
+                mb_strlen($data["oldpassword"]) >= 8 &&
+                mb_strlen($data["oldpassword"]) <= 1000 &&
+                mb_strlen($data["newpassword"]) >= 8 &&
+                mb_strlen($data["newpassword"]) <= 1000 &&
+                $data["newpassword"] === $data["rep_newpassword"]
+            ) {
+                $query = $this->db->prepare("
+                    SELECT password
+                    FROM stores
+                    WHERE store_id = ?
+                ");
+    
+                $query->execute([ $id ]);
+    
+                $existingStore = $query->fetch( PDO::FETCH_ASSOC );
+    
+                if( !empty($existingStore) && password_verify($data["oldpassword"], $existingStore["password"]) ){
+
+                    $query = $this->db->prepare("
+                        UPDATE stores
+                        SET password = ? 
+                        WHERE store_id = ?
+                    ");
+        
+                    return $query->execute([ 
+                        password_hash($data["newpassword"], PASSWORD_DEFAULT),
+                        $id
+                    ]);
+                }
+            }
+    
+            return false;
+        }
+
+        public function delete($id) {
 
             $query = $this->db->prepare("
                 DELETE FROM stores
