@@ -1,3 +1,2 @@
 
-type="text/javascript">
-	CKEDITOR.replace('myeditor');
+CKEDITOR.replace('myeditor');

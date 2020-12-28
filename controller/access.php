@@ -77,6 +77,7 @@
             
                 if( !empty($user) ) {
                     $_SESSION["user_id"] = $user["user_id"];
+                    $_SESSION["is_admin"] = $user["is_admin"];
                     header("Location: " .BASE_PATH. "groups");
                 }
                 else {

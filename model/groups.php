@@ -5,25 +5,26 @@
 
         public function createGroup( $group, $store, $user ) {
 
-            $group = $this->sanitize( $group );
+            $description = $this->sanitizeTextArea( $group["description"] );
 
-            $date = $this->validateDate( $group["group_date"] );
+            $group = $this->sanitize( $group );
 
             if(
                 !empty($group["group_name"]) &&
-                !empty($group["description"]) &&
+                !empty($description) &&
                 !empty($group["game_name"]) &&
-                !empty($date) &&
+                !empty($group["group_date"]) &&
                 !empty($group["total_players"]) &&
                 !empty($group["group_duration"]) &&
                 mb_strlen($group["group_name"]) > 2 &&
                 mb_strlen($group["group_name"]) <= 64 &&
-                mb_strlen($group["description"]) > 10 &&
+                mb_strlen($description) > 10 &&
+                mb_strlen($description) <= 65535 &&
                 mb_strlen($group["game_name"]) > 2 &&
                 mb_strlen($group["game_name"]) <= 64 &&
                 mb_strlen($group["total_players"]) <= 2 &&
                 mb_strlen($group["group_duration"]) <= 3 &&
-                $date >= date("Y-m-d hh:mm:ss") &&
+                $group["group_date"] >= date("Y-m-d hh:mm:ss") &&
                 filter_var($group["total_players"], FILTER_VALIDATE_INT) &&
                 filter_var($group["group_duration"], FILTER_VALIDATE_INT)
             ) {
@@ -36,9 +37,9 @@
 
                 return $query->execute([
                     $group["group_name"],
-                    $group["description"],
+                    $description,
                     $group["game_name"],
-                    $date,
+                    $group["group_date"],
                     $group["total_players"],
                     $group["group_duration"],
                     $store,
@@ -51,25 +52,26 @@
 
         public function editGroup( $newgroup, $group ) {
 
-            $newgroup = $this->sanitize( $newgroup );
+            $description = $this->sanitizeTextArea( $newgroup["description"] );
 
-            $date = $this->validateDate( $newgroup["group_date"] );
+            $newgroup = $this->sanitize( $newgroup );
 
             if(
                 !empty($newgroup["group_name"]) &&
-                !empty($newgroup["description"]) &&
+                !empty($description) &&
                 !empty($newgroup["game_name"]) &&
-                !empty($date) &&
+                !empty($newgroup["group_date"] ) &&
                 !empty($newgroup["total_players"]) &&
                 !empty($newgroup["group_duration"]) &&
                 mb_strlen($newgroup["group_name"]) > 2 &&
                 mb_strlen($newgroup["group_name"]) <= 64 &&
-                mb_strlen($newgroup["description"]) >= 10 &&
+                mb_strlen($description) >= 10 &&
+                mb_strlen($description) <= 65535 &&
                 mb_strlen($newgroup["game_name"]) > 2 &&
                 mb_strlen($newgroup["game_name"]) <= 64 &&
                 mb_strlen($newgroup["total_players"]) <= 2 &&
                 mb_strlen($newgroup["group_duration"]) <= 3 &&
-                $date >= date("Y-m-d hh:mm:ss") &&
+                $newgroup["group_date"] >= date("Y-m-d hh:mm:ss") &&
                 filter_var($newgroup["total_players"], FILTER_VALIDATE_INT) &&
                 filter_var($newgroup["group_duration"], FILTER_VALIDATE_INT)
             ) {
@@ -87,9 +89,9 @@
 
                 return $query->execute([
                     $newgroup["group_name"],
-                    $newgroup["description"],
+                    $description,
                     $newgroup["game_name"],
-                    $date,
+                    $newgroup["group_date"],
                     $newgroup["total_players"],
                     $newgroup["group_duration"],
                     $group
@@ -117,9 +119,12 @@
                        g.game_name, 
                        g.created_at, 
                        u.name AS creator_name, 
-                       u.user_id AS creator_id
+                       u.user_id AS creator_id,
+                       s.store_id,
+                       s.name AS store_name
                 FROM groups g
                 LEFT JOIN users u USING(user_id)
+                LEFT JOIN stores s USING(store_id)
                 ORDER BY g.created_at DESC
             ");
 
@@ -130,30 +135,37 @@
 
         public function searchGroups($search) {
 
-            $query = $this->db->prepare("
-                SELECT g.group_id, 
-                       g.group_name, 
-                       g.game_name, 
-                       g.created_at, 
-                       u.name AS creator_name, 
-                       u.user_id AS creator_id, 
-                       s.city
-                FROM groups g
-                LEFT JOIN users u USING(user_id)
-                LEFT JOIN stores s USING(store_id)
-                WHERE g.group_name LIKE CONCAT('%',?,'%') OR 
-                      g.game_name LIKE CONCAT('%',?,'%') OR 
-                      s.city LIKE CONCAT('%',?,'%')
-                ORDER BY g.created_at DESC
-            ");
+            if(
+                mb_strlen($search) > 0 &&
+                mb_strlen($search) <= 20
+            ) {
+                $query = $this->db->prepare("
+                    SELECT g.group_id, 
+                        g.group_name, 
+                        g.game_name, 
+                        g.created_at, 
+                        u.name AS creator_name, 
+                        u.user_id AS creator_id, 
+                        s.city
+                    FROM groups g
+                    LEFT JOIN users u USING(user_id)
+                    LEFT JOIN stores s USING(store_id)
+                    WHERE g.group_name LIKE CONCAT('%',?,'%') OR 
+                        g.game_name LIKE CONCAT('%',?,'%') OR 
+                        s.city LIKE CONCAT('%',?,'%')
+                    ORDER BY g.created_at DESC
+                ");
 
-            $query->execute([
-                $search,
-                $search,
-                $search
-            ]);
+                $query->execute([
+                    $search,
+                    $search,
+                    $search
+                ]);
 
-            return $query->fetchAll( PDO::FETCH_ASSOC );
+                return $query->fetchAll( PDO::FETCH_ASSOC );
+            }
+
+            return false;
 
         }
 

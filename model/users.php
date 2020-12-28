@@ -44,7 +44,7 @@
                 mb_strlen($user["password"]) <= 1000
             ) {
                 $query = $this->db->prepare("
-                    SELECT user_id, password
+                    SELECT user_id, password, is_admin
                     FROM users
                     WHERE email = ?
                 ");
@@ -64,7 +64,7 @@
         public function getUser($id) {
 
             $query = $this->db->prepare("
-                SELECT user_id, name, bio, email, created_at, is_private
+                SELECT user_id, name, bio, email, created_at, is_private, is_admin
                 FROM users
                 WHERE user_id = ?
             ");

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Edite o seu Playgroup</title>
-        <script src="/ckeditor/ckeditor.js"></script>
+        <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>
     </head>
     <body>
         <h1>Edite o seu Playgroup</h1>

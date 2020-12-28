@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Actualize o seu perfil</title>
-        <script src="/ckeditor/ckeditor.js"></script>
+        <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>
     </head>
     <body>
         <h1>Actualize o seu perfil</h1>

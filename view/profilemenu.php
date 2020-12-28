@@ -7,9 +7,14 @@
 <?php
     if( isset($_SESSION["user_id"]) ) {
 
+        if($user["is_admin"]) {
+?>
+                <a href="<?=BASE_PATH?>admin"> * Zona de Administrador * </a>
+<?php
+        }
 ?>
         <form method="post" action="<?=BASE_PATH?>profileinteract/updateprivacy">
-<?php
+<?php        
         if($user["is_private"]){
 ?>
                 <input type="hidden" name="privacy" value="0">

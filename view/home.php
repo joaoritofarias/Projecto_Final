@@ -17,9 +17,15 @@
         echo '
         <li>
             <a href="' .BASE_PATH. 'groups/' .$group["group_id"]. '">' .$group["group_name"]. '</a>
-            <p>' .$group["game_name"]. '</p>
-            <p>' .$group["created_at"]. '</p>
-            <a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">' .$group["creator_name"]. '</a>
+            <p>Vamos jogar [' .$group["game_name"]. ']</p>
+            <p>Criado a [' .$group["created_at"]. ']</p>';
+            if( empty($group["creator_id"]) ){
+                echo '<a href="' .BASE_PATH. 'stores/' .$group["store_id"]. '">Criado por [' .$group["store_name"]. ']</a>';
+            }
+            else{
+                echo '<a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">Criado por [' .$group["creator_name"]. ']</a>';
+            }
+        echo '
         </li>
         ';
     }

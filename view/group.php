@@ -11,25 +11,62 @@
         <h1><?php echo $group["group_name"]; ?></h1>
         <main>
             <div class="gameName">
-                <?php echo $group["game_name"]; ?>
+                <label>
+                    [Jogo]
+                    <?php echo $group["game_name"]; ?>
+                </label>
             </div>
             <div class="description">
-                <?php echo $group["description"]; ?>
+                <label>
+                    [Descrição do Jogo]
+                    <?php echo $group["description"]; ?>
+                </label>
             </div>
             <div class="groupDate">
-                <?php echo $group["group_date"]; ?>
+                <label>
+                    [Data do Playgroup]
+                    <?php echo $group["group_date"]; ?>
+                </label>
             </div>
             <div class="totalPlayers">
-                <?php echo $group["total_players"]; ?>
+                <label>
+                    [Nº de jogadores necessários]
+                    <?php echo $group["total_players"]; ?>
+                </label>
             </div>
             <div class="createdAt">
-                <?php echo $group["created_at"]; ?>
+                <label>
+                    [Criado a]
+                    <?php echo $group["created_at"]; ?>
+                </label>
             </div>
+<?php
+    if(empty($group["creator_name"])) {
+?>
             <div class="creatorName">
-                <?php echo '<a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">' .$group["creator_name"]. '</a>'; ?>
+                <label>
+                    [Criado por]
+                    <?php echo '<a href="' .BASE_PATH. 'stores/' .$group["store_id"]. '">' .$group["store_name"]. '</a>'; ?>
+                </label>
             </div>
+<?php
+    }
+    else {
+?>
+            <div class="creatorName">
+                <label>
+                    [Criado por]
+                    <?php echo '<a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">' .$group["creator_name"]. '</a>'; ?>
+                </label>
+            </div>
+<?php
+    }
+?> 
             <div class="storeName">
-                <?php echo '<a href="' .BASE_PATH. 'stores/' .$group["store_id"]. '">' .$group["store_name"]. '</a>'; ?>
+                <label>
+                    [Local do Playgroup]
+                    <?php echo '<a href="' .BASE_PATH. 'stores/' .$group["store_id"]. '">' .$group["store_name"]. '</a>'; ?>
+                </label>
             </div>
         </main>
         <div class = "joinedUsersList">
