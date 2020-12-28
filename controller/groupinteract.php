@@ -138,18 +138,30 @@
         }
         elseif($action === "deletegroup") {
 
-            if( empty($_POST["group"]) || !in_array($_POST["group"], $_SESSION["group_id"]) || !isset($_SESSION["group_id"]) ) {
-                header("HTTP/1.1 400 Bad Request");
-                die("Bad Request");
-            }
+            if( isset($_SESSION["is_admin"]) && isset($_POST["adminDelete"]) ) {
+                
+                $deletedGroup = $modelGroups->delete( $_POST["adminDelete"] );
 
-            $deletedGroup = $modelGroups->delete( $_POST["group"] );
-
-            if( $deletedGroup && isset($_SESSION["user_id"]) ) {
-                header( "Location:" .BASE_PATH. "users/" . $_SESSION["user_id"] );
+                if($deletedGroup){
+                    header("Location: " . BASE_PATH . "admin");
+                }
             }
-            elseif( $deletedGroup && isset($_SESSION["store_id"]) ) {
-                header( "Location:" .BASE_PATH. "stores/". $_SESSION["store_id"] );
+            else{
+
+                if( empty($_POST["group"]) || !in_array($_POST["group"], $_SESSION["group_id"]) || !isset($_SESSION["group_id"]) ) {
+                    header("HTTP/1.1 400 Bad Request");
+                    die("Bad Request");
+                }
+    
+                $deletedGroup = $modelGroups->delete( $_POST["group"] );
+    
+                if( $deletedGroup && isset($_SESSION["user_id"]) ) {
+                    header( "Location:" .BASE_PATH. "users/" . $_SESSION["user_id"] );
+                }
+                elseif( $deletedGroup && isset($_SESSION["store_id"]) ) {
+                    header( "Location:" .BASE_PATH. "stores/". $_SESSION["store_id"] );
+                }
+
             }
         }
     }

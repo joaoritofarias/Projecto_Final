@@ -19,27 +19,6 @@
     $modelUsers = new Users;
     $modelStores = new Stores;
 
-    if( $action === "delete") {
-        
-        if( isset($_SESSION["user_id"]) ) {
-            $modelUsers->delete(  $_SESSION["user_id"] );
-
-            if($modelUsers){
-                session_destroy();
-            }
-        }
-        elseif ( isset($_SESSION["store_id"])  ) {
-            $modelStores->delete(  $_SESSION["store_id"] );
-
-            if($modelStores){
-                session_destroy();
-            }
-        }
-
-        header("Location: " . BASE_PATH);
-        exit;
-    }
-
     if( isset($_POST["send"]) ) {
 
         if( $action === "updateprivacy" ) {
@@ -127,6 +106,42 @@
                     $message = "Preencha correctamente todos campos";
                 }
             }
+        }
+        if( $action === "delete") {
+
+            if( isset($_SESSION["is_admin"]) && isset($_POST["user"]) ) {
+                $result = $modelUsers->delete(  $_POST["user"] );
+
+                if($result){
+                    header("Location: " . BASE_PATH . "admin");
+                }
+            }
+            elseif( isset($_SESSION["is_admin"]) && isset($_POST["store"]) ) {
+                $result = $modelStores->delete(  $_POST["store"] );
+
+                if($result){
+                    header("Location: " . BASE_PATH . "admin");
+                }     
+            }
+            elseif( isset($_SESSION["user_id"]) ) {
+                $result = $modelUsers->delete(  $_SESSION["user_id"] );
+    
+                if($result){
+                    session_destroy();
+                    header("Location: " . BASE_PATH);
+                    exit;
+                }
+            }
+            elseif ( isset($_SESSION["store_id"])  ) {
+                $result = $modelStores->delete(  $_SESSION["store_id"] );
+    
+                if($result){
+                    session_destroy();
+                    header("Location: " . BASE_PATH);
+                    exit;
+                }
+            }
+
         }
     }
     

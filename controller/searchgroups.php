@@ -8,7 +8,7 @@
 
     $model = new Groups;
 
-    $groups = $model->getAllGroups();
+    $groups = $model->getGroups();
 
     if( isset($_POST["send"]) ){
 

@@ -81,6 +81,19 @@
             return $query->fetch( PDO::FETCH_ASSOC );
         }
 
+        public function getStores() {
+
+            $query = $this->db->prepare("
+                SELECT store_id, name, email, address, city
+                FROM stores
+                ORDER BY name ASC
+            ");
+
+            $query->execute();
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
         public function checkStoreExists ($name, $email, $address) {
 
             $query = $this->db->prepare("
@@ -201,14 +214,50 @@
             return false;
         }
 
-        public function delete($id) {
+        public function delete( $id ) {
 
-            $query = $this->db->prepare("
-                DELETE FROM stores
-                WHERE store_id = ?
-            ");
-            
-            return $query->execute([$id]);
+            $id = $this->sanitize( $id );
+
+            if(
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT)
+            ) {
+
+                $query = $this->db->prepare("
+                    DELETE FROM joined_users
+                    WHERE store_id = ?
+                ");
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM joined_users
+                    WHERE group_id IN (
+                        SELECT group_id
+                        FROM groups
+                        WHERE store_id = ? 
+                            AND user_id = 0
+                    )
+                "); 
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM groups
+                    WHERE store_id = ?
+                "); 
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM stores
+                    WHERE store_id = ?
+                ");
+
+                return $query->execute([$id]);
+            }
+
+            return false;
         }
 
     }

@@ -103,15 +103,32 @@
 
         public function delete( $id ) {
 
-            $query = $this->db->prepare("
-                DELETE FROM groups
-                WHERE group_id = ?
-            ");
-            
-            return $query->execute([$id]);
+            $id = $this->sanitize( $id );
+
+            if(
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT)
+            ) {
+
+                $query = $this->db->prepare("
+                    DELETE FROM joined_users
+                    WHERE group_id = ?
+                ");
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM groups
+                    WHERE group_id = ?
+                ");
+                
+                return $query->execute([$id]);
+            }
+
+            return false;
         }
 
-        public function getAllGroups() {
+        public function getGroups() {
 
             $query = $this->db->prepare("
                 SELECT g.group_id, 

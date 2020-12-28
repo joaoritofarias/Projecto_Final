@@ -19,7 +19,7 @@
         }
         else{
 ?>
-        <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Perfil</a>
+                <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Perfil</a>
 <?php
     }
 }

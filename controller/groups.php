@@ -26,7 +26,7 @@
         $joinedUsers = array();
     }
     else {
-        $groups = $modelGroups->getAllGroups();
+        $groups = $modelGroups->getGroups();
 
         $groups = array_slice($groups, 0, 5, true);
 

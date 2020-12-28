@@ -6,13 +6,13 @@
     </head>
     <body>
 <?php
-    if( isset($_SESSION["user_id"]) ) {
+    if( isset($_SESSION["user_id"]) || isset($_SESSION["store_id"])  ){
         if($_SESSION["user_id"] === $user["user_id"]){
             include("profilemenu.php");
         }
-    }
-    else{
-        include("menu.php");        
+        else{
+            include("menu.php");
+        }
     }
 ?>
         <h1><?php echo $user["name"]; ?></h1>
@@ -65,7 +65,7 @@
                             <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$userCreatedGroup["group_id"]. '"> [Editar Playgroup] </a>
                             <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
                                 <input type="hidden" name="group" value="' .$userCreatedGroup["group_id"]. '">
-                                <button type="submit" name="send"> [Apagar Playgroup] </button>
+                                <button type="submit" onclick="return confirm(' ."'". 'Tem a certeza que quer apagar este Playgroup?' ."'". ');" name="send"> [Apagar Playgroup] </button>
                             </form>
                             ';
                         }

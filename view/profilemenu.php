@@ -7,7 +7,7 @@
 <?php
     if( isset($_SESSION["user_id"]) ) {
 
-        if($user["is_admin"]) {
+        if( isset($_SESSION["is_admin"]) ) {
 ?>
                 <a href="<?=BASE_PATH?>admin"> * Zona de Administrador * </a>
 <?php

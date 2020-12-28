@@ -6,13 +6,13 @@
     </head>
     <body>
 <?php
-    if( isset($_SESSION["store_id"]) ) {
+    if( isset($_SESSION["user_id"]) || isset($_SESSION["store_id"])  ){
         if($_SESSION["store_id"] === $store["store_id"]){
             include("profilemenu.php");
         }
-    }
-    else{
-        include("menu.php");        
+        else{
+            include("menu.php");
+        }
     }
 ?>
         <h1><?php echo $store["name"]; ?></h1>

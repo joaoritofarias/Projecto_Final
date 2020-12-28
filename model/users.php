@@ -74,6 +74,20 @@
             return $query->fetch( PDO::FETCH_ASSOC );
         }
 
+        public function getUsers() {
+
+            $query = $this->db->prepare("
+                SELECT user_id, name, email, created_at, is_private
+                FROM users
+                WHERE is_admin = 0
+                ORDER BY name ASC
+            ");
+
+            $query->execute();
+
+            return $query->fetchAll( PDO::FETCH_ASSOC );
+        }
+
         public function checkUserExists ($name,$email) {
 
             $query = $this->db->prepare("
@@ -146,15 +160,17 @@
 
         public function updateProfile($newProfile, $id) {
 
+            $bio = $this->sanitizeTextArea( $newProfile["bio"] );
+
             $newProfile = $this->sanitize( $newProfile );
 
             if(
                 !empty($newProfile["name"]) &&
-                !empty($newProfile["bio"]) &&
+                !empty($bio) &&
                 !empty($newProfile["email"]) &&
                 mb_strlen($newProfile["name"]) > 2 &&
                 mb_strlen($newProfile["name"]) <= 64 &&
-                mb_strlen($newProfile["bio"]) <= 65535 &&
+                mb_strlen($bio) <= 65535 &&
                 filter_var($newProfile["email"], FILTER_VALIDATE_EMAIL)
             ) {
 
@@ -169,25 +185,58 @@
                 return $query->execute([ 
                     $newProfile["name"],
                     $newProfile["email"],
-                    $newProfile["bio"],
+                    $bio,
                     $id
                 ]);
             }
 
-
+            return false;
         }
 
         public function delete( $id ) {
 
-            $query = $this->db->prepare("
-                DELETE FROM users
-                WHERE user_id = ?
-            ");
-            
-            return $query->execute([$id]);
-        }
+            $id = $this->sanitize( $id );
 
-        
+            if(
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT)
+            ) {
+
+                $query = $this->db->prepare("
+                    DELETE FROM joined_users
+                    WHERE user_id = ?
+                ");
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM joined_users
+                    WHERE group_id IN (
+                        SELECT group_id
+                        FROM groups
+                        WHERE user_id = ?
+                    )
+                "); 
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM groups
+                    WHERE user_id = ?
+                "); 
+                
+                $query->execute([$id]);
+
+                $query = $this->db->prepare("
+                    DELETE FROM users
+                    WHERE user_id = ?
+                "); 
+                
+                return $query->execute([$id]);
+            }
+
+            return false;
+        }
 
     }
 ?>
