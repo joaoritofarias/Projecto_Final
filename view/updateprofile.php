@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Actualize o seu perfil</title>
+        <script src="/ckeditor/ckeditor.js"></script>
     </head>
     <body>
         <h1>Actualize o seu perfil</h1>
@@ -29,7 +30,7 @@
                 <div>
                     <label>
                         Sobre mim
-                        <textarea name="bio"></textarea>
+                        <textarea name="bio" id="myeditor"></textarea>
                     </label>
                 </div>
                 <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Cancelar</a>
@@ -58,5 +59,6 @@
                 </div>
             </form>
         </div>
+    <script src="/scripts/ckeditorscript.js"></script>
     </body>
 </html>

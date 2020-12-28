@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Criar Playgroup</title>
+        <script src="/ckeditor/ckeditor.js"></script>
     </head>
     <body>
         <h1>Criar Playgroup</h1>
@@ -20,7 +21,7 @@
                 <div>
                     <label>
                         Descrição
-                        <textarea name="description" placeholder="A descrição deve conter mais que 10 caracteres." cols="30" rows="10" required></textarea>
+                        <textarea name="description" cols="30" rows="10" id="myeditor" required></textarea>
                     </label>
                 </div>
                 <div>
@@ -51,6 +52,7 @@
                 <button type="submit" name="send">Criar</button>
                 </div>
             </form>
-            <a href="<?=BASE_PATH?>groups">Cancelar</a>
+        <a href="<?=BASE_PATH?>groups">Cancelar</a>
+        <script src="/scripts/ckeditorscript.js"></script>
     </body>
 </html>
