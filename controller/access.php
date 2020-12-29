@@ -71,34 +71,42 @@
         }
         elseif($action === "login") {
 
-            if( $_POST["userType"] === "user" ) {
+            if ($_POST["captcha"] === $_SESSION["captcha"]){
 
-                $user = $modelUsers->login( $_POST );
-            
-                if( !empty($user) ) {
-                    $_SESSION["user_id"] = $user["user_id"];
-                    $_SESSION["is_admin"] = ($user["is_admin"] ? true : null);
-                    header("Location: " .BASE_PATH. "groups");
+                if( $_POST["userType"] === "user" ) {
+
+                    $user = $modelUsers->login( $_POST );
+                
+                    if( !empty($user) ) {
+                        $_SESSION["user_id"] = $user["user_id"];
+                        $_SESSION["is_admin"] = ($user["is_admin"] ? true : null);
+                        header("Location: " .BASE_PATH. "groups");
+                    }
+                    else {
+                        $message = "Email ou password incorrectos.  Tente de novo.";
+                    }
+                }
+                elseif ( $_POST["userType"] === "store" ) {
+    
+                    $store = $modelStores->login( $_POST );
+                
+                    if( !empty($store) ) {
+                        $_SESSION["store_id"] = $store["store_id"];
+                        header("Location: " .BASE_PATH. "groups");
+                    }
+                    else {
+                        $message = "Email ou password incorrectos.  Tente de novo.";
+                    }
                 }
                 else {
-                    $message = "Email ou password incorrectos.  Tente de novo.";
+                    header("HTTP/1.1 400 Bad Request");
+                    die("Bad Request");
                 }
-            }
-            elseif ( $_POST["userType"] === "store" ) {
-
-                $store = $modelStores->login( $_POST );
-            
-                if( !empty($store) ) {
-                    $_SESSION["store_id"] = $store["store_id"];
-                    header("Location: " .BASE_PATH. "groups");
-                }
-                else {
-                    $message = "Email ou password incorrectos.  Tente de novo.";
-                }
-            }
-            else {
-                header("HTTP/1.1 400 Bad Request");
-                die("Bad Request");
+                
+            }else{
+                header("Location: " .BASE_PATH. "access/login");
+                $message = "Captcha incorrecto.  Tente de novo.";
+                exit;
             }
         }
     }

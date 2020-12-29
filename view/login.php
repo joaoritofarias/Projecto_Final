@@ -39,6 +39,15 @@
                 </label>
             </div>
             <div>
+                <img src="../captcha.php">
+            </div>
+            <div>
+                <label>
+                    Escreva os caracteres mostrados em cima:
+                    <input type="text" name="captcha" required>
+                </label>
+            </div>
+            <div>
                 <button type="submit" name="send">Login</button>
             </div>
         </form>
