@@ -63,15 +63,22 @@
 
         public function getUser($id) {
 
-            $query = $this->db->prepare("
-                SELECT user_id, name, bio, email, created_at, is_private, is_admin
-                FROM users
-                WHERE user_id = ?
-            ");
+            if(
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT)
+            ) {
+                $query = $this->db->prepare("
+                    SELECT user_id, name, bio, email, created_at, is_private, is_admin
+                    FROM users
+                    WHERE user_id = ?
+                ");
 
-            $query->execute([ $id ]);
+                $query->execute([ $id ]);
 
-            return $query->fetch( PDO::FETCH_ASSOC );
+                return $query->fetch( PDO::FETCH_ASSOC );
+            }
+
+            return false;
         }
 
         public function getUsers() {
@@ -168,6 +175,8 @@
                 !empty($newProfile["name"]) &&
                 !empty($bio) &&
                 !empty($newProfile["email"]) &&
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT) &&
                 mb_strlen($newProfile["name"]) > 2 &&
                 mb_strlen($newProfile["name"]) <= 64 &&
                 mb_strlen($bio) <= 65535 &&

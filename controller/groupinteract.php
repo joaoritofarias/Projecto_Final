@@ -52,17 +52,12 @@
         }
         elseif($action === "editgroup") {
 
-            if( empty($secondAction) || !in_array($secondAction, $_SESSION["group_id"]) || !isset($_SESSION["group_id"]) ) {
-                header("HTTP/1.1 400 Bad Request");
-                die("Bad Request");
-            }
+            if( isset($_SESSION["is_admin"]) && $thirdAction === "admin" ){
 
-            $secondAction = $secondAction;
-
-            if( isset($_SESSION["user_id"]) ) {
+                $secondAction = $secondAction;
 
                 $oldGroup = $modelGroups->getGroup($secondAction);
-
+    
                 if($oldGroup["group_date"] < date("Y-m-d hh:mm:ss")){
                     $message = "Este Playgroup já aconteceu, logo não pode ser editado";
                 }
@@ -71,18 +66,23 @@
                     if( empty($_POST["group_name"]) ) {
                         $_POST["group_name"] = $oldGroup["group_name"];
                     }
+
                     if( empty($_POST["description"]) ) {
                         $_POST["description"] = $oldGroup["description"];
                     }
+
                     if( empty($_POST["game_name"]) ) {
                         $_POST["game_name"] = $oldGroup["game_name"];
                     }
+
                     if( empty($_POST["group_date"]) ) {
                         $_POST["group_date"] = $oldGroup["group_date"];
                     }
+
                     if( empty($_POST["total_players"]) ) {
                         $_POST["total_players"] = $oldGroup["total_players"];
                     }
+
                     if( empty($_POST["group_duration"]) ) {
                         $_POST["group_duration"] = $oldGroup["group_duration"];
                     }
@@ -90,56 +90,115 @@
                     $newGroup = $modelGroups->editGroup($_POST, $secondAction);
         
                     if($newGroup) {
-                        header( "Location:" .BASE_PATH. "groups/" . $secondAction );
+                        header( "Location:" .BASE_PATH. "admin" );
                     }
                     else {
                         $message = "Preencha correctamente todos campos"; 
                     }
                 }
             }
-            elseif ( isset($_SESSION["store_id"])  ) {
+            else {
 
-                $oldGroup = $modelGroups->getGroup($secondAction);
-
-                if($oldGroup["group_date"] < date("Y-m-d hh:mm:ss")){
-                    $message = "Este Playgroup já aconteceu, logo não pode ser editado";
+                if( empty($secondAction) || !in_array($secondAction, $_SESSION["group_id"]) || !isset($_SESSION["group_id"]) || isset($thirdAction) ) {
+                    header("HTTP/1.1 400 Bad Request");
+                    die("Bad Request");
                 }
-                else{
-
-                    if( empty($_POST["group_name"]) ) {
-                        $_POST["group_name"] = $oldGroup["group_name"];
-                    }
-                    if( empty($_POST["description"]) ) {
-                        $_POST["description"] = $oldGroup["description"];
-                    }
-                    if( empty($_POST["game_name"]) ) {
-                        $_POST["game_name"] = $oldGroup["game_name"];
-                    }
-                    if( empty($_POST["group_date"]) ) {
-                        $_POST["group_date"] = $oldGroup["group_date"];
-                    }
-                    if( empty($_POST["total_players"]) ) {
-                        $_POST["total_players"] = $oldGroup["total_players"];
-                    }
-                    if( empty($_POST["group_duration"]) ) {
-                        $_POST["group_duration"] = $oldGroup["group_duration"];
-                    }
     
-                    $newGroup = $modelGroups->editGroup($_POST, $secondAction);
-        
-                    if($newGroup) {
-                        header( "Location:" .BASE_PATH. "groups/" . $secondAction );
+                $secondAction = $secondAction;
+    
+                if( isset($_SESSION["user_id"]) ) {
+    
+                    $oldGroup = $modelGroups->getGroup($secondAction);
+    
+                    if($oldGroup["group_date"] < date("Y-m-d hh:mm:ss")){
+                        $message = "Este Playgroup já aconteceu, logo não pode ser editado";
                     }
-                    else {    
-                        $message = "Preencha correctamente todos campos";
+                    else{
+    
+                        if( empty($_POST["group_name"]) ) {
+                            $_POST["group_name"] = $oldGroup["group_name"];
+                        }
+    
+                        if( empty($_POST["description"]) ) {
+                            $_POST["description"] = $oldGroup["description"];
+                        }
+    
+                        if( empty($_POST["game_name"]) ) {
+                            $_POST["game_name"] = $oldGroup["game_name"];
+                        }
+    
+                        if( empty($_POST["group_date"]) ) {
+                            $_POST["group_date"] = $oldGroup["group_date"];
+                        }
+    
+                        if( empty($_POST["total_players"]) ) {
+                            $_POST["total_players"] = $oldGroup["total_players"];
+                        }
+    
+                        if( empty($_POST["group_duration"]) ) {
+                            $_POST["group_duration"] = $oldGroup["group_duration"];
+                        }
+        
+                        $newGroup = $modelGroups->editGroup($_POST, $secondAction);
+            
+                        if($newGroup) {
+                            header( "Location:" .BASE_PATH. "groups/" . $secondAction );
+                        }
+                        else {
+                            $message = "Preencha correctamente todos campos"; 
+                        }
+                    }
+                }
+                elseif ( isset($_SESSION["store_id"])  ) {
+    
+                    $oldGroup = $modelGroups->getGroup($secondAction);
+    
+                    if($oldGroup["group_date"] < date("Y-m-d hh:mm:ss")){
+                        $message = "Este Playgroup já aconteceu, logo não pode ser editado";
+                    }
+                    else{
+    
+                        if( empty($_POST["group_name"]) ) {
+                            $_POST["group_name"] = $oldGroup["group_name"];
+                        }
+    
+                        if( empty($_POST["description"]) ) {
+                            $_POST["description"] = $oldGroup["description"];
+                        }
+    
+                        if( empty($_POST["game_name"]) ) {
+                            $_POST["game_name"] = $oldGroup["game_name"];
+                        }
+    
+                        if( empty($_POST["group_date"]) ) {
+                            $_POST["group_date"] = $oldGroup["group_date"];
+                        }
+    
+                        if( empty($_POST["total_players"]) ) {
+                            $_POST["total_players"] = $oldGroup["total_players"];
+                        }
+    
+                        if( empty($_POST["group_duration"]) ) {
+                            $_POST["group_duration"] = $oldGroup["group_duration"];
+                        }
+        
+                        $newGroup = $modelGroups->editGroup($_POST, $secondAction);
+            
+                        if($newGroup) {
+                            header( "Location:" .BASE_PATH. "groups/" . $secondAction );
+                        }
+                        else {    
+                            $message = "Preencha correctamente todos campos";
+                        }
                     }
                 }
             }
+
         }
         elseif($action === "deletegroup") {
 
             if( isset($_SESSION["is_admin"]) && isset($_POST["adminDelete"]) ) {
-                
+
                 $deletedGroup = $modelGroups->delete( $_POST["adminDelete"] );
 
                 if($deletedGroup){

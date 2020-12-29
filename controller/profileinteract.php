@@ -13,6 +13,14 @@
 
     $action = $action;
 
+    if(isset($secondAction)){
+        $secondAction = $secondAction;
+    }
+
+    if(isset($thirdAction)){
+        $thirdAction = $thirdAction;
+    }
+
     require("model/users.php");
     require("model/stores.php");
 
@@ -30,18 +38,80 @@
         }
         elseif( $action === "updateprofile" ) {
 
-            if( isset($_SESSION["user_id"]) ) {
+            if( isset($_SESSION["is_admin"]) && isset($secondAction) && isset($thirdAction) ) {
+
+                if( $secondAction === "user") {
+
+                    $oldProfile = $modelUsers->getUser( $thirdAction );
+
+                    print_r ($oldProfile);
+
+                    if( empty($_POST["name"]) ) {
+                        $_POST["name"] = $oldProfile["name"];
+                    }
+
+                    if( empty($_POST["email"]) ) {
+                        $_POST["email"] = $oldProfile["email"];
+                    }
+
+                    if( empty($_POST["bio"]) ) {
+                        $_POST["bio"] = $oldProfile["bio"];
+                    }
+    
+                    $newProfile = $modelUsers->updateProfile( $_POST, $thirdAction );
+                
+                    if($newProfile) {
+                        header("Location: " .BASE_PATH. "admin/");
+                    }
+                    else {
+                        $message = "Preencha correctamente todos campos";
+                    }
+
+                }
+                elseif( $secondAction === "store" ) {
+
+                    $oldProfile = $modelStores->getStore( $thirdAction );
+
+                    if( empty($_POST["name"]) ) {
+                        $_POST["name"] = $oldProfile["name"];
+                    }
+
+                    if( empty($_POST["email"]) ) {
+                        $_POST["email"] = $oldProfile["email"];
+                    }
+
+                    if( empty($_POST["address"]) ) {
+                        $_POST["address"] = $oldProfile["address"];
+                    }
+
+                    if( empty($_POST["city"]) ) {
+                        $_POST["city"] = $oldProfile["city"];
+                    }
+            
+                    $newProfile = $modelStores->updateProfile( $_POST, $thirdAction );
+        
+                    if($newProfile) {
+                        header( "Location:" .BASE_PATH. "admin" );
+                    }
+                    else {
+                        $message = "Preencha correctamente todos campos";
+                    }
+                }
+            }
+            if( isset($_SESSION["user_id"]) && !isset($secondAction) && !isset($thirdAction) ) {
 
                 $oldProfile = $modelUsers->getUser( $_SESSION["user_id"] );
 
                 if( empty($_POST["name"]) ) {
-                    $_POST["name"] = $oldProfile[0]["name"];
+                    $_POST["name"] = $oldProfile["name"];
                 }
+
                 if( empty($_POST["email"]) ) {
-                    $_POST["email"] = $oldProfile[0]["email"];
+                    $_POST["email"] = $oldProfile["email"];
                 }
+
                 if( empty($_POST["bio"]) ) {
-                    $_POST["bio"] = $oldProfile[0]["bio"];
+                    $_POST["bio"] = $oldProfile["bio"];
                 }
 
                 $newProfile = $modelUsers->updateProfile( $_POST, $_SESSION["user_id"] );
@@ -54,21 +124,24 @@
                 }
         
             }
-            elseif ( isset($_SESSION["store_id"])  ) {
+            elseif ( isset($_SESSION["store_id"]) && !isset($secondAction) && !isset($thirdAction) ) {
 
                 $oldProfile = $modelStores->getStore( $_SESSION["store_id"] );
 
                 if( empty($_POST["name"]) ) {
-                    $_POST["name"] = $oldProfile[0]["name"];
+                    $_POST["name"] = $oldProfile["name"];
                 }
+
                 if( empty($_POST["email"]) ) {
-                    $_POST["email"] = $oldProfile[0]["email"];
+                    $_POST["email"] = $oldProfile["email"];
                 }
+
                 if( empty($_POST["address"]) ) {
-                    $_POST["address"] = $oldProfile[0]["address"];
+                    $_POST["address"] = $oldProfile["address"];
                 }
+
                 if( empty($_POST["city"]) ) {
-                    $_POST["city"] = $oldProfile[0]["city"];
+                    $_POST["city"] = $oldProfile["city"];
                 }
         
                 $newProfile = $modelStores->updateProfile( $_POST, $_SESSION["store_id"] );
@@ -79,7 +152,8 @@
                 else {
                     $message = "Preencha correctamente todos campos";
                 }
-            }  
+            } 
+
         }
         elseif( $action === "changepassword" ) {
 

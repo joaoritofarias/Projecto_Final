@@ -70,15 +70,22 @@
 
         public function getStore($id) {
 
-            $query = $this->db->prepare("
-                SELECT store_id, name, email, address, city
-                FROM stores
-                WHERE store_id = ?
-            ");
+            if(
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT)
+            ) {
+                $query = $this->db->prepare("
+                    SELECT store_id, name, email, address, city
+                    FROM stores
+                    WHERE store_id = ?
+                ");
 
-            $query->execute([ $id ]);
+                $query->execute([ $id ]);
 
-            return $query->fetch( PDO::FETCH_ASSOC );
+                return $query->fetch( PDO::FETCH_ASSOC );
+            }
+
+            return false;
         }
 
         public function getStores() {
@@ -147,6 +154,8 @@
                 !empty($newProfile["name"]) &&
                 !empty($newProfile["address"]) &&
                 !empty($newProfile["city"]) &&
+                !empty($id) &&
+                filter_var($id, FILTER_VALIDATE_INT) &&
                 mb_strlen($newProfile["name"]) > 2 &&
                 mb_strlen($newProfile["name"]) <= 64 &&
                 mb_strlen($newProfile["address"]) <= 255 &&

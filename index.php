@@ -39,6 +39,10 @@
         $secondAction = $url_parts[3];
     }
 
+    if( isset($url_parts[4]) ) {
+        $thirdAction = $url_parts[4];
+    }
+
     require("controller/" .$controller. ".php")
 
 ?>

@@ -11,7 +11,18 @@
     if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
 ?> 
         <div id="editProfileForm">
+<?php
+    if( isset($_SESSION["is_admin"]) && isset($secondAction) && isset($thirdAction) ){
+?>
+            <form method="post" action="<?=BASE_PATH?>profileinteract/updateprofile/<?=$secondAction?>/<?=$thirdAction?>">
+<?php
+    }
+    else{
+?>
             <form method="post" action="<?=BASE_PATH?>profileinteract/updateprofile">
+<?php
+    }
+?>
                 <div>
                     <label>
                         Nome
@@ -25,7 +36,7 @@
                     </label>
                 </div>
 <?php
-    if( isset($_SESSION["user_id"]) ){
+    if( isset($_SESSION["user_id"]) & !isset($secondAction) || isset($_SESSION["is_admin"]) && $secondAction === "user"  ){
 ?>
                 <div>
                     <label>
@@ -33,10 +44,9 @@
                         <textarea name="bio" id="myeditor"></textarea>
                     </label>
                 </div>
-                <a href="<?=BASE_PATH?>users/<?=$_SESSION["user_id"]?>">Cancelar</a>
 <?php
     }
-    elseif( isset($_SESSION["store_id"]) ){
+    elseif( isset($_SESSION["store_id"]) & !isset($secondAction) || isset($_SESSION["is_admin"]) && $secondAction === "store" ){
 ?>
                 <div>
                     <label>
@@ -50,12 +60,12 @@
                         <input type="text" name="city" maxlength="64">
                     </label>
                 </div>
-                <a href="<?=BASE_PATH?>stores/<?=$_SESSION["store_id"]?>">Cancelar</a>
 <?php
     }
 ?>
                 <div>
-                <button type="submit" name="send">Actualizar</button>
+                    <button type="submit" name="send">Actualizar</button>
+                    <a href="<?=BASE_PATH?>groups">Cancelar</a>
                 </div>
             </form>
         </div>

@@ -25,7 +25,7 @@
                 echo '<p> »Utilizador com perfil privado« </p>';
             }
             echo '
-            <a href="' .BASE_PATH. 'profileinteract/updateprofile/' .$user["user_id"]. '"> [Editar Utilizador] </a>
+            <a href="' .BASE_PATH. 'profileinteract/updateprofile/user/' .$user["user_id"]. '"> [Editar Utilizador] </a>
             <form method="post" action="' .BASE_PATH. 'profileinteract/delete">
                 <input type="hidden" name="user" value="' .$user["user_id"]. '">
                 <button type="submit" onclick="return confirm(' ."'". 'Tem a certeza que quer apagar este utilizador?' ."'". ');"  name="send"> [Apagar Utilizador] </button>
@@ -47,7 +47,7 @@
             <p>Email [' .$store["email"]. ']</p>
             <p>Morada [' .$store["address"]. ']</p>
             <p>Cidade [' .$store["city"]. ']</p>
-            <a href="' .BASE_PATH. 'profileinteract/updateprofile/' .$store["store_id"]. '"> [Editar Loja] </a>
+            <a href="' .BASE_PATH. 'profileinteract/updateprofile/store/' .$store["store_id"]. '"> [Editar Loja] </a>
             <form method="post" action="' .BASE_PATH. 'profileinteract/delete">
                 <input type="hidden" name="store" value="' .$store["store_id"]. '">
                 <button type="submit" onclick="return confirm(' ."'". 'Tem a certeza que quer apagar esta Loja?' ."'". ');" name="send"> [Apagar Loja] </button>
@@ -75,7 +75,7 @@
                 echo '<a href="' .BASE_PATH. 'users/' .$group["creator_id"]. '">Criado por [' .$group["creator_name"]. ']</a>';
             }
             echo '
-            <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$group["group_id"]. '"> [Editar Playgroup] </a>
+            <a href="' .BASE_PATH. 'groupinteract/editgroup/' .$group["group_id"]. '/admin"> [Editar Playgroup] </a>
             <form method="post" action="' .BASE_PATH. 'groupinteract/deletegroup">
                 <input type="hidden" name="adminDelete" value="' .$group["group_id"]. '">
                 <button type="submit" onclick="return confirm(' ."'". 'Tem a certeza que quer apagar este Playgroup?' ."'". ');" name="send"> [Apagar Playgroup] </button>

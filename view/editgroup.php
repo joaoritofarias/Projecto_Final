@@ -11,7 +11,19 @@
     if(isset($message)) { echo '<p role="alert">' .$message. '</p>'; };
 ?> 
         <div id="editGroupForm">
+<?php
+    if( isset($_SESSION["is_admin"]) && isset($thirdAction) ){
+?>
+            <form method="post" action="<?=BASE_PATH?>groupinteract/editgroup/<?=$secondAction?>/<?=$thirdAction?>">
+<?php
+    }
+    else{
+?>
             <form method="post" action="<?=BASE_PATH?>groupinteract/editgroup/<?=$secondAction?>">
+<?php
+    }
+?>
+
                 <div>
                     <label>
                         Nome do Playgroup
