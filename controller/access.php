@@ -104,9 +104,7 @@
                 }
                 
             }else{
-                header("Location: " .BASE_PATH. "access/login");
                 $message = "Captcha incorrecto.  Tente de novo.";
-                exit;
             }
         }
     }

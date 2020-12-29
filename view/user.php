@@ -17,12 +17,12 @@
 ?>
         <h1><?php echo $user["name"]; ?></h1>
         <div class="bio">
-            <p><?php echo $user["bio"]; ?></p>
-            <p><?php echo $user["email"]; ?></p>
-            <p><?php echo $user["created_at"]; ?></p>
+            <p>Bio:<?php echo $user["bio"]; ?></p>
+            <p>Email:<?php echo $user["email"]; ?></p>
+            <p>Criado a:<?php echo $user["created_at"]; ?></p>
         </div>
 <?php
-    if( !$user["is_private"] || $_SESSION["user_id"] === $user["user_id"] ){
+    if( !$user["is_private"] || $_SESSION["user_id"] === $user["user_id"] || isset($_SESSION["is_admin"]) ){
         if( !empty($userGroups) ){
             echo'
             <h2>PlayGroups:</h2>

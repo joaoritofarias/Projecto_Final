@@ -5,26 +5,26 @@
 
         public function createGroup( $group, $store, $user ) {
 
-            $description = $this->sanitizeTextArea( $group["description"] );
-
             $group = $this->sanitize( $group );
+
+            $todayDate = date('Y-m-d');
 
             if(
                 !empty($group["group_name"]) &&
-                !empty($description) &&
+                !empty($group["description"]) &&
                 !empty($group["game_name"]) &&
                 !empty($group["group_date"]) &&
                 !empty($group["total_players"]) &&
                 !empty($group["group_duration"]) &&
                 mb_strlen($group["group_name"]) > 2 &&
                 mb_strlen($group["group_name"]) <= 64 &&
-                mb_strlen($description) > 10 &&
-                mb_strlen($description) <= 65535 &&
+                mb_strlen($group["description"]) > 10 &&
+                mb_strlen($group["description"]) <= 65535 &&
                 mb_strlen($group["game_name"]) > 2 &&
                 mb_strlen($group["game_name"]) <= 64 &&
                 mb_strlen($group["total_players"]) <= 2 &&
                 mb_strlen($group["group_duration"]) <= 3 &&
-                $group["group_date"] >= date("Y-m-d hh:mm:ss") &&
+                $group["group_date"] >= date('Y-m-d', strtotime($todayDate. ' + 2 days') ) &&
                 filter_var($group["total_players"], FILTER_VALIDATE_INT) &&
                 filter_var($group["group_duration"], FILTER_VALIDATE_INT)
             ) {
@@ -52,26 +52,26 @@
 
         public function editGroup( $newgroup, $group ) {
 
-            $description = $this->sanitizeTextArea( $newgroup["description"] );
-
             $newgroup = $this->sanitize( $newgroup );
+
+            $todayDate = date('Y-m-d');
 
             if(
                 !empty($newgroup["group_name"]) &&
-                !empty($description) &&
+                !empty($newgroup["description"]) &&
                 !empty($newgroup["game_name"]) &&
                 !empty($newgroup["group_date"] ) &&
                 !empty($newgroup["total_players"]) &&
                 !empty($newgroup["group_duration"]) &&
                 mb_strlen($newgroup["group_name"]) > 2 &&
                 mb_strlen($newgroup["group_name"]) <= 64 &&
-                mb_strlen($description) >= 10 &&
-                mb_strlen($description) <= 65535 &&
+                mb_strlen($newgroup["description"]) >= 10 &&
+                mb_strlen($newgroup["description"]) <= 65535 &&
                 mb_strlen($newgroup["game_name"]) > 2 &&
                 mb_strlen($newgroup["game_name"]) <= 64 &&
                 mb_strlen($newgroup["total_players"]) <= 2 &&
                 mb_strlen($newgroup["group_duration"]) <= 3 &&
-                $newgroup["group_date"] >= date("Y-m-d hh:mm:ss") &&
+                $newgroup["group_date"] >= date('Y-m-d', strtotime($todayDate. ' + 2 days') ) &&
                 filter_var($newgroup["total_players"], FILTER_VALIDATE_INT) &&
                 filter_var($newgroup["group_duration"], FILTER_VALIDATE_INT)
             ) {

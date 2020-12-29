@@ -167,19 +167,17 @@
 
         public function updateProfile($newProfile, $id) {
 
-            $bio = $this->sanitizeTextArea( $newProfile["bio"] );
-
             $newProfile = $this->sanitize( $newProfile );
 
             if(
                 !empty($newProfile["name"]) &&
-                !empty($bio) &&
+                !empty($newProfile["bio"]) &&
                 !empty($newProfile["email"]) &&
                 !empty($id) &&
                 filter_var($id, FILTER_VALIDATE_INT) &&
                 mb_strlen($newProfile["name"]) > 2 &&
                 mb_strlen($newProfile["name"]) <= 64 &&
-                mb_strlen($bio) <= 65535 &&
+                mb_strlen($newProfile["bio"]) <= 65535 &&
                 filter_var($newProfile["email"], FILTER_VALIDATE_EMAIL)
             ) {
 

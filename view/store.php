@@ -17,9 +17,9 @@
 ?>
         <h1><?php echo $store["name"]; ?></h1>
         <div class="bio">
-            <p><?php echo $store["email"]; ?></p>
-            <p><?php echo $store["address"]; ?></p>
-            <p><?php echo $store["city"]; ?></p>
+            <p>Email:<?php echo $store["email"]; ?></p>
+            <p>Morada:<?php echo $store["address"]; ?></p>
+            <p>Cidade:<?php echo $store["city"]; ?></p>
         </div>
 <?php
     if( !empty($storeGroups) ){

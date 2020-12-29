@@ -6,10 +6,22 @@
 
     $actions = ["creategroup", "editgroup", "deletegroup"];
 
-    if( empty($action) || !in_array($action, $actions) || ( $action === "deletegroup" && !isset($_POST["send"]) ) ) {
+    if( empty($action) || 
+        !in_array($action, $actions) || 
+        ( $action === "deletegroup" && !isset($_POST["send"]) ) || 
+        ( $action === "deletegroup" && !isset($_POST["adminDelete"]) )
+        ){
         header("HTTP/1.1 400 Bad Request");
         die("Bad Request");
     }
+
+    if( ( !isset($_SESSION["is_admin"]) && isset($thirdAction) ) || 
+        ( !isset($_SESSION["is_admin"]) && isset($_POST["adminDelete"]) ) 
+       ){
+        header("HTTP/1.1 401 Unauthorized");
+        die("Unauthorized");
+    }
+
 
     require("model/groups.php");
     $modelGroups = new Groups;

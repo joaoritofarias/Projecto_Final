@@ -6,9 +6,21 @@
 
     $actions = ["updateprivacy", "updateprofile", "changepassword", "delete"];
 
-    if( empty($action) || !in_array($action, $actions) || ( $action === "updateprivacy" && !isset($_POST["send"]) ) ) {
+    if( empty($action) || 
+        !in_array($action, $actions) || 
+        ( $action === "updateprivacy" && !isset($_POST["send"]) ) 
+        ){
         header("HTTP/1.1 400 Bad Request");
         die("Bad Request");
+    }
+
+    if( ( !isset($_SESSION["is_admin"]) && isset($secondAction) ) || 
+        ( !isset($_SESSION["is_admin"]) && isset($thirdAction) ) || 
+        ( !isset($_SESSION["is_admin"]) && isset($_POST["user"]) ) ||
+        ( !isset($_SESSION["is_admin"]) && isset($_POST["store"]) )
+    ){
+        header("HTTP/1.1 401 Unauthorized");
+        die("Unauthorized");
     }
 
     $action = $action;
@@ -43,8 +55,6 @@
                 if( $secondAction === "user") {
 
                     $oldProfile = $modelUsers->getUser( $thirdAction );
-
-                    print_r ($oldProfile);
 
                     if( empty($_POST["name"]) ) {
                         $_POST["name"] = $oldProfile["name"];

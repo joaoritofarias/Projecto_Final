@@ -56,7 +56,7 @@
                 </div>
                 <div>
                     <label>
-                        Nº de jogadores
+                        Nº de jogadores necessários
                         <input type="number" name="total_players">
                     </label>
                 </div>
